@@ -20,8 +20,8 @@ services:
     ports:
       - "80:80"
     volumes:
+      - ../wordpress:/var/www/html
       - wordpress_uploads:/var/www/html/web/app/uploads
-      - ../wordpress/.env:/var/www/html/.env:ro
     depends_on:
       - db
 

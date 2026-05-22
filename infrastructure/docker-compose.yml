@@ -14,23 +14,19 @@ services:
       - db_data:/var/lib/mysql
 
   wordpress:
-    image: wordpress:latest
+    build: ./wordpress
     container_name: headless-wp-wp
     restart: always
     ports:
       - "80:80"
-    environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-      WORDPRESS_DB_NAME: wordpress
     volumes:
-      - wordpress_data:/var/www/html
+      - wordpress_uploads:/var/www/html/web/app/uploads
+      - ./wordpress/.env:/var/www/html/.env:ro   # bind mount .env file
     depends_on:
       - db
 
 volumes:
   db_data:
     name: headless-wp-db-data
-  wordpress_data:
-    name: headless-wp-wp-data
+  wordpress_uploads:
+    name: headless-wp-wp-uploads

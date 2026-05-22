@@ -36,6 +36,20 @@ services:
     depends_on:
       - php-fpm
 
+  frontend:
+    build: ./frontend
+    container_name: headless-wp-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../frontend:/app
+      - /app/node_modules   # anonymous volume to persist node_modules across mounts
+    environment:
+      - NEXT_PUBLIC_WP_URL=http://nginx
+    depends_on:
+      - nginx
+
 volumes:
   db_data:
     name: headless-wp-db-data

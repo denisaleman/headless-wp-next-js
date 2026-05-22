@@ -46,7 +46,7 @@ services:
       - ../frontend:/app
       - /app/node_modules   # anonymous volume to persist node_modules across mounts
     environment:
-      - NEXT_PUBLIC_WP_URL=http://nginx
+      - NEXT_PUBLIC_WP_URL=http://localhost
     depends_on:
       - nginx
 

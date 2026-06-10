@@ -77,11 +77,8 @@ services:
     build: ./setup
     container_name: headless-wp-setup
     restart: always
+    working_dir: /scripts
     environment:
-      - DB_HOST=db
-      - DB_NAME=wordpress
-      - DB_USER=wordpress
-      - DB_PASSWORD=wordpress
       - WP_URL=${WP_URL:-http://localhost}
       - WP_TITLE=${WP_TITLE:-Headless WordPress}
       - WP_ADMIN_USER=${WP_ADMIN_USER:-admin}

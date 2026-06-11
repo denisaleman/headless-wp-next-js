@@ -1,0 +1,16 @@
+{
+    "name": "gafotas/headless-news-theme",
+    "description": "A minimal headless wordpress theme for a news site.",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Gafotas\\HeadlessNewsTheme\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Denis Alemán"
+        }
+    ],
+    "require": {}
+}

@@ -18,8 +18,5 @@ add_filter( 'template_include', function( $template ) {
     return $template;
 });
 
-// Initialise the News post type
-if ( class_exists( 'Gafotas\\HeadlessNewsTheme\\News\\PostType' ) ) {
-    $news_post_type = new \Gafotas\HeadlessNewsTheme\News\PostType();
-    $news_post_type->register();
-}
+$bootstrap = new \Gafotas\HeadlessNewsTheme\Bootstrap();
+$bootstrap->run();

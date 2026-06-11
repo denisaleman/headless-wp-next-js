@@ -1,6 +1,8 @@
 <?php
 namespace Gafotas\HeadlessNewsTheme\News\Grabber;
 
+use Gafotas\HeadlessNewsTheme\News\Grabber\NewsFetcher;
+
 class SettingsPage {
     private $option_group = 'news_grabber_settings';
     private $option_name  = 'news_grabber_options';
@@ -198,103 +200,19 @@ class SettingsPage {
             return;
         }
 
-        $posts_per_fetch = isset($options['posts_per_fetch']) ? (int) $options['posts_per_fetch'] : 20;
-        $categories = [];
-
-        // Map checkboxes to API methods and parameters
-        if (!empty($options['fetch_top_news'])) {
-            $categories['top-news'] = [
-                'type'   => 'top',
-                'params' => [
-                    'language'       => 'en',
-                    'source-country' => 'us',
-                    'date'           => current_time('Y-m-d'),
-                ],
-            ];
-        }
-        if (!empty($options['fetch_politics'])) {
-            $categories['politics'] = [
-                'type'   => 'search',
-                'params' => [
-                    'categories' => 'politics',
-                    'number'     => $posts_per_fetch,
-                    'language'   => 'en',
-                    'source-country' => 'us',
-                ],
-            ];
-        }
-        if (!empty($options['fetch_sports'])) {
-            $categories['sports'] = [
-                'type'   => 'search',
-                'params' => [
-                    'categories' => 'sports',
-                    'number'     => $posts_per_fetch,
-                    'language'   => 'en',
-                    'source-country' => 'us',
-                ],
-            ];
-        }
-        if (!empty($options['fetch_technology'])) {
-            $categories['technology'] = [
-                'type'   => 'search',
-                'params' => [
-                    'categories' => 'technology',
-                    'number'     => $posts_per_fetch,
-                    'language'   => 'en',
-                    'source-country' => 'us',
-                ],
-            ];
-        }
-
-        if (empty($categories)) {
-            echo '<div class="notice notice-warning is-dismissible"><p>' . __('No categories selected. Please check at least one category in the settings.', 'headless-news') . '</p></div>';
-            return;
-        }
-
         $client = new ApiClient($api_key);
-        $upload_dir = wp_upload_dir();
-        $news_dir = $upload_dir['basedir'] . '/news';
-        if (!file_exists($news_dir)) {
-            wp_mkdir_p($news_dir);
+        $fetcher = new NewsFetcher($client, $options);
+        $result = $fetcher->fetchAll();
+
+        if (!empty($result['success'])) {
+            echo '<div class="notice notice-success is-dismissible"><p>' .
+                sprintf(__('Successfully fetched %d news feeds. JSON files saved in /uploads/news/', 'headless-news'), count($result['success'])) .
+                '</p></div>';
         }
-
-        $success = 0;
-        $errors = [];
-
-        foreach ($categories as $slug => $config) {
-            if ($config['type'] === 'top') {
-                $result = $client->fetchTopNews($config['params']);
-            } else {
-                // Ensure the date range is within the last 30 days (API restriction)
-                $params = $config['params'];
-                if (empty($params['earliest-publish-date'])) {
-                    $params['earliest-publish-date'] = date('Y-m-d', strtotime('-30 days'));
-                }
-                if (empty($params['latest-publish-date'])) {
-                    $params['latest-publish-date'] = date('Y-m-d');
-                }
-                $result = $client->searchNews($params);
-            }
-
-            if (is_wp_error($result)) {
-                $errors[] = sprintf(__('Error fetching %s: %s', 'headless-news'), $slug, $result->get_error_message());
-                continue;
-            }
-
-            $file_path = $news_dir . '/' . $slug . '.json';
-            $json_data = json_encode($result, JSON_PRETTY_PRINT);
-            if (file_put_contents($file_path, $json_data) === false) {
-                $errors[] = sprintf(__('Could not write file for %s', 'headless-news'), $slug);
-            } else {
-                $success++;
-            }
-        }
-
-        if ($success > 0) {
-            echo '<div class="notice notice-success is-dismissible"><p>' . sprintf(__('Successfully fetched %d news feeds. JSON files saved in /uploads/news/', 'headless-news'), $success) . '</p></div>';
-        }
-        if (!empty($errors)) {
-            echo '<div class="notice notice-error is-dismissible"><p>' . implode('<br>', $errors) . '</p></div>';
+        if (!empty($result['errors'])) {
+            echo '<div class="notice notice-error is-dismissible"><p>' .
+                implode('<br>', $result['errors']) .
+                '</p></div>';
         }
     }
 }

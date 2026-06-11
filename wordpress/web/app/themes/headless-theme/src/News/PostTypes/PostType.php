@@ -2,10 +2,10 @@
 /**
  * Repurpose the default "post" post type as "News"
  *
- * @package Gafotas\HeadlessNewsTheme\News
+ * @package Gafotas\HeadlessNewsTheme\News\PostTypes
  */
 
-namespace Gafotas\HeadlessNewsTheme\News;
+namespace Gafotas\HeadlessNewsTheme\News\PostTypes;
 
 class PostType {
 

@@ -5,7 +5,7 @@ export default function Home() {
 
   useEffect(() => {
     const wpUrl = process.env.NEXT_PUBLIC_WP_URL || 'http://nginx';
-    fetch(`${wpUrl}/wp-json/wp/v2/posts/`)
+    fetch(`${wpUrl}/wp-json/wp/v2/news/`)
       .then(res => res.json())
       .then(data => setPosts(data))
       .catch(err => console.error(err));

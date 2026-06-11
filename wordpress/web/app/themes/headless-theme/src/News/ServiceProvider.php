@@ -6,6 +6,5 @@ class ServiceProvider {
         (new PostTypes\PostType())->register();
 
 		(new Grabber\SettingsPage())->register();
-		(new Grabber\Endpoints\FetchNews())->register();
     }
 }

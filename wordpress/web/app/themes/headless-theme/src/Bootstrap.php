@@ -4,6 +4,7 @@ namespace Gafotas\HeadlessNewsTheme;
 class Bootstrap {
     protected $providers = [
         News\ServiceProvider::class,
+		Theme\ThumbnailSizes::class,
     ];
 
     public function run() {

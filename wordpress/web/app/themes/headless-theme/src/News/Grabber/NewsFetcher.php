@@ -5,10 +5,6 @@ class NewsFetcher {
     private $api_client;
     private $options;
 
-    /**
-     * @param ApiClient $api_client
-     * @param array     $options     Plugin options (api_key, posts_per_fetch, etc.)
-     */
     public function __construct(ApiClient $api_client, array $options) {
         $this->api_client = $api_client;
         $this->options    = $options;
@@ -17,10 +13,7 @@ class NewsFetcher {
     /**
      * Fetch news for all enabled categories and save JSON files.
      *
-     * @return array {
-     *     'success' => array of category slugs that succeeded,
-     *     'errors'  => array of error messages
-     * }
+     * @return array { 'success' => array, 'errors' => array }
      */
     public function fetchAll() {
         $api_key = $this->options['api_key'] ?? '';
@@ -41,7 +34,6 @@ class NewsFetcher {
             ];
         }
 
-        // Prepare uploads directory
         $upload_dir = wp_upload_dir();
         $news_dir = $upload_dir['basedir'] . '/news';
         if (!file_exists($news_dir)) {
@@ -87,7 +79,7 @@ class NewsFetcher {
     }
 
     /**
-     * Build the list of categories based on the saved checkbox options.
+     * Build the list of categories based on saved checkboxes.
      *
      * @param int $posts_per_fetch
      * @return array
@@ -95,48 +87,48 @@ class NewsFetcher {
     private function getEnabledCategories($posts_per_fetch) {
         $categories = [];
 
+        // Common base parameters for every request
+        $base_params = [
+            'language'       => 'en',
+        ];
+
+        // Top News (special endpoint)
         if (!empty($this->options['fetch_top_news'])) {
             $categories['top-news'] = [
                 'type'   => 'top',
-                'params' => [
-                    'language'       => 'en',
-                    'source-country' => 'us',
-                    'date'           => current_time('Y-m-d'),
-                ],
+                'params' => array_merge($base_params, [
+                    'date' => current_time('Y-m-d'),
+                ]),
             ];
         }
-        if (!empty($this->options['fetch_politics'])) {
-            $categories['politics'] = [
-                'type'   => 'search',
-                'params' => [
-                    'categories' => 'politics',
-                    'number'     => $posts_per_fetch,
-                    'language'   => 'en',
-                    'source-country' => 'us',
-                ],
-            ];
-        }
-        if (!empty($this->options['fetch_sports'])) {
-            $categories['sports'] = [
-                'type'   => 'search',
-                'params' => [
-                    'categories' => 'sports',
-                    'number'     => $posts_per_fetch,
-                    'language'   => 'en',
-                    'source-country' => 'us',
-                ],
-            ];
-        }
-        if (!empty($this->options['fetch_technology'])) {
-            $categories['technology'] = [
-                'type'   => 'search',
-                'params' => [
-                    'categories' => 'technology',
-                    'number'     => $posts_per_fetch,
-                    'language'   => 'en',
-                    'source-country' => 'us',
-                ],
-            ];
+
+        // Map settings keys to API category names
+        $category_map = [
+            'fetch_politics'   => 'politics',
+            'fetch_sports'     => 'sports',
+            'fetch_business'   => 'business',
+            'fetch_technology' => 'technology',
+            'fetch_entertainment' => 'entertainment',
+            'fetch_health'     => 'health',
+            'fetch_science'    => 'science',
+            'fetch_lifestyle'  => 'lifestyle',
+            'fetch_travel'     => 'travel',
+            'fetch_culture'    => 'culture',
+            'fetch_education'  => 'education',
+            'fetch_environment'=> 'environment',
+            'fetch_other'      => 'other',
+        ];
+
+        foreach ($category_map as $option_key => $api_category) {
+            if (!empty($this->options[$option_key])) {
+                $categories[$api_category] = [
+                    'type'   => 'search',
+                    'params' => array_merge($base_params, [
+                        'categories' => $api_category,
+                        'number'     => $posts_per_fetch,
+                    ]),
+                ];
+            }
         }
 
         return $categories;

@@ -1,0 +1,69 @@
+{
+    "offset": 0,
+    "number": 50,
+    "available": 3,
+    "news": [
+        {
+            "id": 439255306,
+            "title": "Non-VR Arizona Sunshine",
+            "text": "Vertigo Games announces plans for a new version of Arizona Sunshine \nthat will be playable on PC and consoles via traditional flat screens. This \nzombie-infested first-person shooter first had its day in the sun \nback in 2016 as a VR-only game, so this \nwill bring it to a wider audience. Listings are live for the Windows edition on \nthe Epic Games \n\nsaying this is coming \"soon. The\nReveal Trailer takes a \nlook at gameplay, showing what's revealed in the announcement, which is this \nwill add the chance to play as Buddy, the game's best boy:Built on the \nfoundation of the series\u2019 signature brutal gameplay and the frantic but \nsurprisingly touching story of Arizona Sunshine VR 2, Arizona Sunshine brings \nbrand-new ways to survive the heart-pounding, limb-severing and dark-humored \napocalypse. The game features narrative-driven solo play and chaotic co-op where \nevery encounter can spiral out of control, all in an accessible third-person \nperspective on PC and consoles.\n\nIt\u2019s hot, it\u2019s bloody and frankly, you smell terrible. Meet Sunny, a \ndark-humored survivor who has spent way too much time alone in the desert \ntalking to the undead he calls \u201cFred.\" Together with his fiercely loyal, \nzombie-chomping dog Buddy, he sets out on a sun-drenched, gore-splattered road \ntrip across Arizona. It\u2019s a witty, frantic story about survival, loneliness, and \nthe bond between a man and his dog.\n\nSure, surviving alone is fine, but why not share the trauma? Grab a friend, a \npizza and a controller for chaotic split-screen co-op, or jump into a two-player \nzombie-slaying sesh online. Blast through massive hordes using fan-favorite \nweapons, from shotguns and machetes to flamethrowers and more. Firefights break \ndown fast, split-second saves become routine and nothing ever goes according to",
+            "url": "https://www.bluesnews.com/s/299019/non-vr-arizona-sunshine",
+            "image": "https://www.bluesnews.com/images/new/bluesLogoMobile.png",
+            "video": null,
+            "publish_date": "2026-06-08 00:25:31",
+            "author": "Stephen Heaslip",
+            "authors": [
+                "Stephen Heaslip"
+            ],
+            "language": "en",
+            "source_country": "us",
+            "sentiment": 0.414,
+            "categories": [
+                "travel"
+            ],
+            "local_image": "/images/travel/439255306_bluesLogoMobile.png"
+        },
+        {
+            "id": 438048514,
+            "title": "FCC Applications for KTRK-TV",
+            "text": "HOUSTON -- To learn about FCC applications regarding KTRK-TV, Channel 13 (RF Channel 13) Houston, TX click HERE\n\nOn May 28, 2026, KTRK Television, Inc., licensee of KTRK-TV, Channel 13 (RF Channel 13), Houston, Texas, filed an application with the Federal Communications Commission for renewal of its broadcast license. Members of the public wishing to view this application or obtain information about how to file comments and petitions on the application can visit publicfiles.fcc.gov.",
+            "summary": "On May 28, 2026, KTRK Television, Inc., licensee of KTRK-TV, filed an application with the FCC for renewal of its license.",
+            "url": "https://abc13.com/post/fcc-applications-ktrk-tv-houston/10927681/?userab=kabc_content_recs-577*variant_a_control-2480%2Cwls_content_recs-584*variant_a_control_wls-2516%2Cwpvi_content_recs-586*variant_a_control_wpvi-2520%2Cotv_web_content_rec-539*variant_c",
+            "image": "https://cdn.abcotvs.net/abcotv/assets/news/ktrk/images/logos/default_1280x720.jpg?w=1600",
+            "video": null,
+            "publish_date": "2026-06-03 18:37:27",
+            "author": "Houston",
+            "authors": [
+                "Houston"
+            ],
+            "language": "en",
+            "source_country": "US",
+            "sentiment": 0.743,
+            "categories": [
+                "travel"
+            ],
+            "local_image": "/images/travel/438048514_default_1280x720.jpg"
+        },
+        {
+            "id": 438056310,
+            "title": "FCC Applications for KGO-TV",
+            "text": "SAN FRANCISCO -- To learn about FCC applications regarding KGO-TV, Channel 7 (RF Channel 12) San Francisco, California click HERE.\n\nOn May 28, 2026, KGO Television, Inc., licensee of KGO-TV, Channel 7 (RF Channel 12), San Francisco, California, filed an application with the Federal Communications Commission for renewal of its broadcast license. Members of the public wishing to view this application or obtain information about how to file comments and petitions on the application can visit publicfiles.fcc.gov.",
+            "summary": "On May 28, 2026, KGO Television, Inc., licensee of KGO-TV, Channel 7 (RF Channel 12) San Francisco, California, filed an application with the Federal Communications Commission for renewal of its license.",
+            "url": "https://abc7news.com/post/fcc-applications-kgo-tv-san-francisco/10927676/?userab=kabc_content_recs-577*variant_c_trending-2482%2Cwls_content_recs-584*variant_b_trending_wls-2517%2Cwpvi_content_recs-586*variant_b_trending_wpvi-2521%2Cotv_web_content_rec-53",
+            "image": "https://cdn.abcotvs.net/abcotv/assets/news/kgo/images/logos/default_1280x720.jpg?w=1600",
+            "video": null,
+            "publish_date": "2026-06-03 18:28:25",
+            "author": "San Francisco",
+            "authors": [
+                "San Francisco"
+            ],
+            "language": "en",
+            "source_country": "us",
+            "sentiment": 0.97,
+            "categories": [
+                "travel"
+            ],
+            "local_image": "/images/travel/438056310_default_1280x720.jpg"
+        }
+    ]
+}

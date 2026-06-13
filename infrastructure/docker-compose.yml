@@ -61,6 +61,7 @@ services:
     image: wordpress:cli-php8.2
     container_name: headless-wp-wp-cli
     restart: "no"  # only run when manually executed
+    user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - ../wordpress:/var/www/html
     depends_on:

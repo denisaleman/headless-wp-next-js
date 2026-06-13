@@ -33,7 +33,7 @@ export default function Home() {
   return (
     <div className="news-page">
       <h1 className="news-page__title">Headless WordPress + Next.js</h1>
-      <NewsGrid posts={posts} />
+      <NewsGrid posts={posts} className="news-page__grid" />
     </div>
   );
 }

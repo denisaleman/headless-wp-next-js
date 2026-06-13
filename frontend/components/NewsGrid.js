@@ -1,7 +1,9 @@
 import { getThumbnail } from '../lib/utils';
 
-export default function NewsGrid({ posts }) {
+export default function NewsGrid({ posts, className = '', additionalClasses = [] }) {
   if (!posts || posts.length === 0) return null;
+
+  const combinedClasses = ['news-grid', className, ...additionalClasses].filter(Boolean).join(' ');
 
   const heroPost = posts[0];
   const column1Posts = posts.slice(1, 4);
@@ -9,7 +11,7 @@ export default function NewsGrid({ posts }) {
   const column3Posts = posts.slice(6, 6 + 6);
 
   return (
-    <div className="news-grid news-grid--3cols">
+    <div className={combinedClasses}>
       {/* Column 1 – text only */}
       <div className="news-grid__col news-grid__col--1">
         {column1Posts.map(post => (
@@ -71,7 +73,7 @@ export default function NewsGrid({ posts }) {
 
       <style jsx>{`
         /* Block: grid */
-        .news-grid--3cols {
+        .news-grid {
           display: grid;
           grid-template-columns: 1fr 2fr 1fr;
           gap: 2rem;

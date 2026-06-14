@@ -16,7 +16,7 @@ class ThumbnailSizes {
         add_image_size( 'news-750x500', 750, 500, true );
 
         // 3. 240x160 – hard crop
-        add_image_size( 'news-240x160', 240, 160, true );
+        add_image_size( 'news-270x180', 270, 180, true );
 
         // 4. 180x120 – hard crop
         add_image_size( 'news-180x120', 180, 120, true );
@@ -41,7 +41,7 @@ class ThumbnailSizes {
         $custom_sizes = [
             'news-1024',
             'news-750x500',
-            'news-240x160',
+            'news-270x180',
             'news-180x120',
         ];
 

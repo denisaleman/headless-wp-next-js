@@ -53,8 +53,8 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
       {/* Center bottom column */}
       <div className="news-grid__center-bottom">
         <article className="news-grid__card">
-          {getThumbnail(article2, "news-240x160") && (
-            <img className="news-grid__thumb-horizontal" src={getThumbnail(article2, "news-240x160")} alt={article2.title.rendered} />
+          {getThumbnail(article2, "news-270x180") && (
+            <img className="news-grid__thumb-horizontal" src={getThumbnail(article2, "news-270x180")} alt={article2.title.rendered} />
           )}
           <div>
             <Title tag="h3" size="h4" className="news-grid__card-title">
@@ -64,8 +64,8 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
           </div>
         </article>
         <article className="news-grid__card">
-          {getThumbnail(article3, "news-240x160") && (
-            <img className="news-grid__thumb-horizontal" src={getThumbnail(article3, "news-240x160")} alt={article3.title.rendered} />
+          {getThumbnail(article3, "news-270x180") && (
+            <img className="news-grid__thumb-horizontal" src={getThumbnail(article3, "news-270x180")} alt={article3.title.rendered} />
           )}
           <div>
             <Title tag="h3" size="h4" className="news-grid__card-title">

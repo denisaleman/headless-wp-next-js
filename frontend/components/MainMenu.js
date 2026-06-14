@@ -78,8 +78,32 @@ export default function MainMenu({ items = [] }) {
 
       <style jsx>{`
         .main-menu {
-          border-bottom: 1px solid #ddd;
+          position: relative;
           margin-bottom: 1rem;
+          border-bottom: 1px solid #ddd;
+        }
+
+        .main-menu::before,
+        .main-menu::after {
+          display: block;
+          content: '';
+          position: absolute;
+          top: 0;
+          height: 100%;
+          z-index: 2;
+          pointer-events: none; /* optional: allow clicking through gradients */
+        }
+
+        .main-menu::before {
+          left: 0;
+          width: 1rem;
+          background: linear-gradient(to right, #fff, transparent);
+        }
+
+        .main-menu::after {
+          right: 0;
+          width: 4rem;
+          background: linear-gradient(to right, transparent, #fff);
         }
         .main-menu__scroll {
           overflow-x: auto;

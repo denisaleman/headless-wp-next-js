@@ -5,7 +5,9 @@ class Bootstrap {
     protected $providers = [
         News\ServiceProvider::class,
 		DemoContent\ServiceProvider::class,
+		REST\ServiceProvider::class,
 		Theme\ThumbnailSizes::class,
+		Theme\Menus::class,
     ];
 
     public function run() {

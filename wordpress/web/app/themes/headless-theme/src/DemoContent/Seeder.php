@@ -274,7 +274,7 @@ class Seeder {
     private function get_category_ids( $category_names ) {
         $ids = [];
         foreach ( $category_names as $name ) {
-            $name = sanitize_text_field( $name );
+            $name = sanitize_text_field( ucfirst( $name ) );
             if ( empty( $name ) ) continue;
             $term = term_exists( $name, 'category' );
             if ( ! $term ) {

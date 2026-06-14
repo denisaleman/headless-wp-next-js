@@ -12,13 +12,20 @@ class ServiceProvider {
     }
 
     public function import_command( $args, $assoc_args ) {
-        $seeder = new Seeder();
-        $result = $seeder->import( $assoc_args );
+        $dry_run = isset( $assoc_args['dry-run'] );
+        $news_seeder = new Seeder();
+        $menu_seeder = new MenuSeeder();
 
-        if ( isset( $assoc_args['dry-run'] ) ) {
+        $result = $news_seeder->import( $assoc_args );
+
+        if ( $dry_run ) {
             WP_CLI::log( 'Dry run: would have inserted ' . $result['inserted'] . ' posts, updated ' . $result['updated'] . ', skipped ' . $result['skipped'] );
         } else {
             WP_CLI::success( "Imported: {$result['inserted']}, Updated: {$result['updated']}, Skipped: {$result['skipped']}" );
+            $menu_result = $menu_seeder->create();
+            if ( ! $menu_result ) {
+                WP_CLI::warning( "Menu creation encountered issues." );
+            }
         }
         if ( ! empty( $result['errors'] ) ) {
             foreach ( $result['errors'] as $error ) {
@@ -28,10 +35,17 @@ class ServiceProvider {
     }
 
     public function delete_command( $args, $assoc_args ) {
-        $seeder = new Seeder();
-        $result = $seeder->delete( $assoc_args );
+        $dry_run = isset( $assoc_args['dry-run'] );
+        $news_seeder = new Seeder();
+        $menu_seeder = new MenuSeeder();
 
-        if ( isset( $assoc_args['dry-run'] ) ) {
+        if ( ! $dry_run ) {
+            $menu_seeder->delete();
+        }
+
+        $result = $news_seeder->delete( $assoc_args );
+
+        if ( $dry_run ) {
             WP_CLI::log( 'Dry run: would have deleted ' . $result['deleted'] . ' posts and ' . $result['attachments'] . ' images.' );
         } else {
             WP_CLI::success( "Deleted: {$result['deleted']} posts, {$result['attachments']} attachments." );

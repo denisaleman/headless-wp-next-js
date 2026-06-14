@@ -1,48 +1,126 @@
-import Link from 'next/link';
+import { useRef, useState } from 'react';
 
 export default function MainMenu({ items = [] }) {
+  const scrollContainerRef = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
+  const [startX, setStartX] = useState(0);
+  const [scrollLeft, setScrollLeft] = useState(0);
+
   if (!items.length) return null;
+
+  const handleMouseDown = (e) => {
+    setIsDragging(true);
+    setStartX(e.pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+    // Prevent text selection during drag
+    e.preventDefault();
+    document.onselectstart = () => false;
+  };
+
+  const handleMouseLeave = () => {
+    setIsDragging(false);
+    document.onselectstart = null;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+    document.onselectstart = null;
+  };
+
+  const handleMouseMove = (e) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const x = e.pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 1;
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleTouchStart = (e) => {
+    setIsDragging(true);
+    setStartX(e.touches[0].pageX - scrollContainerRef.current.offsetLeft);
+    setScrollLeft(scrollContainerRef.current.scrollLeft);
+  };
+
+  const handleTouchMove = (e) => {
+    if (!isDragging) return;
+    const x = e.touches[0].pageX - scrollContainerRef.current.offsetLeft;
+    const walk = (x - startX) * 1;
+    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+  };
+
+  const handleTouchEnd = () => {
+    setIsDragging(false);
+  };
 
   return (
     <nav className="main-menu">
-      <ul className="main-menu__list">
-        {items.map(item => (
-          <li key={item.id} className="main-menu__item">
-            <Link href={item.url} className="main-menu__link">
-              {item.title}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <div
+        className="main-menu__scroll"
+        ref={scrollContainerRef}
+        onMouseDown={handleMouseDown}
+        onMouseLeave={handleMouseLeave}
+        onMouseUp={handleMouseUp}
+        onMouseMove={handleMouseMove}
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <ul className="main-menu__list">
+          {items.map(item => (
+            <li key={item.id} className="main-menu__item">
+              <a href={item.url} className="main-menu__link">
+                {item.title}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
 
       <style jsx>{`
         .main-menu {
-          background: #f8f9fa;
-          padding: 0.75rem 1rem;
-          border-bottom: 1px solid #e9ecef;
+          border-bottom: 1px solid #ddd;
+          margin-bottom: 1rem;
+        }
+        .main-menu__scroll {
+          overflow-x: auto;
+          cursor: grab;
+          scrollbar-width: none;          /* Firefox */
+          -ms-overflow-style: none;       /* IE/Edge */
+          user-select: none;              /* Disable text selection */
+        }
+        .main-menu__scroll::-webkit-scrollbar {
+          display: none;                  /* Chrome, Safari, Opera */
+        }
+        .main-menu__scroll:active {
+          cursor: grabbing;
         }
         .main-menu__list {
           display: flex;
-          gap: 1.5rem;
+          flex-wrap: nowrap;
           list-style: none;
           margin: 0;
           padding: 0;
           align-items: center;
           justify-content: flex-start;
-          flex-wrap: wrap;
         }
         .main-menu__item {
           margin: 0;
           padding: 0;
+          white-space: nowrap;
         }
         .main-menu__link {
+          display: inline-flex;
           text-decoration: none;
-          color: #333;
-          font-weight: 500;
-          transition: color 0.2s ease;
+          padding: 1.5rem 1rem;
+          color: #000;
+          font-weight: 600;
+          white-space: nowrap;
+        }
+        .main-menu__link:first-child {
+          padding-left: 1rem;
         }
         .main-menu__link:hover {
-          color: #0070f3;
+          background-color: #f6f6f6;
         }
         @media (max-width: 768px) {
           .main-menu__list {

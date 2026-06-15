@@ -21,14 +21,14 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
       <div className="news-grid__hero">
         <div className="news-grid__hero-text">
           <Title tag="h1" size="h1" className="news-grid__hero-title">
-            {article1.title.rendered}
+            {article1.title}
           </Title>
-          <div className="news-grid__hero-excerpt" dangerouslySetInnerHTML={{ __html: article1.excerpt.rendered }} />
+		  <p className="news-grid__hero-excerpt">{article1.excerpt}</p>
         </div>
         <figure className="news-grid__hero-image">
           <img
-            src={heroImagePost._embedded?.['wp:featuredmedia']?.[0]?.source_url}
-            alt={heroImagePost.title.rendered}
+            src={heroImagePost.featured_image?.url}
+            alt={heroImagePost.title}
           />
         </figure>
       </div>
@@ -38,14 +38,14 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
         <article className="news-grid__card--vertical">
           <div>
             <Title tag="h3" size="h4" className="news-grid__card-title">
-              {article4.title.rendered}
+              {article4.title}
             </Title>
-            <div className="news-grid__card-excerpt" dangerouslySetInnerHTML={{ __html: article4.excerpt.rendered }} />
+			<p className="news-grid__card-excerpt">{article4.excerpt}</p>
           </div>
         </article>
         <article className="news-grid__card--vertical news-grid__card--no-excerpt">
           <Title tag="h3" size="h4" className="news-grid__card-title">
-            {article5.title.rendered}
+            {article5.title}
           </Title>
         </article>
       </div>
@@ -53,25 +53,25 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
       {/* Center bottom column */}
       <div className="news-grid__center-bottom">
         <article className="news-grid__card">
-          {getThumbnail(article2, "news-270x180") && (
-            <img className="news-grid__thumb-horizontal" src={getThumbnail(article2, "news-270x180")} alt={article2.title.rendered} />
+          {getThumbnail(article2) && (
+            <img className="news-grid__thumb-horizontal" src={getThumbnail(article2)} alt={article2.title} />
           )}
           <div>
             <Title tag="h3" size="h4" className="news-grid__card-title">
-              {article2.title.rendered}
+              {article2.title}
             </Title>
-            <div className="news-grid__card-excerpt" dangerouslySetInnerHTML={{ __html: article2.excerpt.rendered }} />
+			<p className="news-grid__card-excerpt">{article2.excerpt}</p>
           </div>
         </article>
         <article className="news-grid__card">
-          {getThumbnail(article3, "news-270x180") && (
-            <img className="news-grid__thumb-horizontal" src={getThumbnail(article3, "news-270x180")} alt={article3.title.rendered} />
+          {getThumbnail(article3) && (
+            <img className="news-grid__thumb-horizontal" src={getThumbnail(article3)} alt={article3.title} />
           )}
           <div>
             <Title tag="h3" size="h4" className="news-grid__card-title">
-              {article3.title.rendered}
+              {article3.title}
             </Title>
-            <div className="news-grid__card-excerpt" dangerouslySetInnerHTML={{ __html: article3.excerpt.rendered }} />
+			<p className="news-grid__card-excerpt">{article3.excerpt}</p>
           </div>
         </article>
       </div>
@@ -81,10 +81,10 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
         {rightColumnPosts.map((post) => (
           <article key={post.id} className="news-grid__card--inline">
             <Title tag="h4" size="h5" className="news-grid__inline-title">
-              {post.title.rendered}
+              {post.title}
             </Title>
             {getThumbnail(post) && (
-              <img className="news-grid__thumb-inline" src={getThumbnail(post)} alt={post.title.rendered} />
+              <img className="news-grid__thumb-inline" src={getThumbnail(post)} alt={post.title} />
             )}
           </article>
         ))}

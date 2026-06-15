@@ -1,5 +1,9 @@
-export function getThumbnail(post, size = 'news-180x120') {
-  const media = post._embedded?.['wp:featuredmedia']?.[0];
-  const src = media?.media_details?.sizes?.[size]?.source_url || media?.source_url;
-  return src || null;
+/**
+ * Get thumbnail URL for a post from the custom REST API format.
+ * @param {object} post - Post object from headless-news/v1/news
+ * @param {string} size - Image size slug (default 'news-270x180')
+ * @returns {string|null}
+ */
+export function getThumbnail(post, size = 'news-270x180') {
+  return post.featured_image?.[size] || post.featured_image?.url || null;
 }

@@ -32,26 +32,51 @@ class MenuSeeder {
 
         if ( empty( $categories ) ) {
             WP_CLI::log( "No categories found to add to menu." );
-        } else {
-            $added = 0;
-            foreach ( $categories as $cat ) {
-                $item_data = [
-                    'menu-item-title'     => $cat->name,
-                    'menu-item-url'       => get_term_link( $cat ),
-                    'menu-item-status'    => 'publish',
-                    'menu-item-type'      => 'taxonomy',
-                    'menu-item-object'    => 'category',
-                    'menu-item-object-id' => $cat->term_id,
-                ];
-                $item_id = wp_update_nav_menu_item( $menu_id, 0, $item_data );
-                if ( ! is_wp_error( $item_id ) ) {
-                    $added++;
-                } else {
-                    WP_CLI::warning( "Failed to add category '{$cat->name}' to menu: " . $item_id->get_error_message() );
-                }
-            }
-            WP_CLI::log( "Added {$added} categories to menu '{$this->menu_name}'." );
+            return true;
         }
+
+        // Sort categories: "Top News" first, then by post count descending
+        $top_news = null;
+        $others = [];
+
+        foreach ( $categories as $cat ) {
+            if ( strtolower( $cat->name ) === 'top news' ) {
+                $top_news = $cat;
+            } else {
+                $others[] = $cat;
+            }
+        }
+
+        // Sort others by post count (higher first)
+        usort( $others, function( $a, $b ) {
+            return $b->count - $a->count;
+        } );
+
+        $sorted_categories = [];
+        if ( $top_news ) {
+            $sorted_categories[] = $top_news;
+        }
+        $sorted_categories = array_merge( $sorted_categories, $others );
+
+        $added = 0;
+        foreach ( $sorted_categories as $cat ) {
+            $item_data = [
+                'menu-item-title'     => $cat->name,
+                'menu-item-url'       => get_term_link( $cat ),
+                'menu-item-status'    => 'publish',
+                'menu-item-type'      => 'taxonomy',
+                'menu-item-object'    => 'category',
+                'menu-item-object-id' => $cat->term_id,
+            ];
+            $item_id = wp_update_nav_menu_item( $menu_id, 0, $item_data );
+            if ( ! is_wp_error( $item_id ) ) {
+                $added++;
+            } else {
+                WP_CLI::warning( "Failed to add category '{$cat->name}' to menu: " . $item_id->get_error_message() );
+            }
+        }
+
+        WP_CLI::log( "Added {$added} categories to menu '{$this->menu_name}'." );
 
         $locations = get_theme_mod( 'nav_menu_locations', [] );
         $locations[ $this->menu_location ] = $menu_id;
@@ -60,6 +85,7 @@ class MenuSeeder {
 
         return true;
     }
+
 
     /**
      * Delete the main menu if it exists.

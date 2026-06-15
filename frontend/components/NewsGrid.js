@@ -160,8 +160,8 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
         }
         .news-grid__center-bottom {
           grid-area: center-bottom;
-          display: flex;
-          flex-direction: row;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
           gap: 1.5rem;
         }
         .news-grid__right-col {
@@ -197,7 +197,8 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
           margin-bottom: 1rem;
         }
         .news-grid__card--inline {
-          display: flex;
+          display: grid;
+          grid-template-columns: 1fr 1fr;
           gap: 1rem;
           border-bottom: 1px dotted #ddd;
           padding-bottom: 0.75rem;

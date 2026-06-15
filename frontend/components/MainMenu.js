@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export default function MainMenu({ items = [] }) {
+  const router = useRouter();
   const scrollContainerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -73,11 +75,20 @@ export default function MainMenu({ items = [] }) {
               const url = new URL(item.url);
               href = url.pathname + url.search;
             } catch (e) {
-              // it's already relative
+              if (!href.startsWith('/')) href = '/' + href;
             }
+
+            const currentPath = router.asPath.split('?')[0];
+            const normalize = (str) => str.replace(/\/$/, '');
+            const isActive = normalize(href) === normalize(currentPath) || 
+                            (href === '/' && currentPath === '') ||
+                            (href !== '/' && currentPath.startsWith(normalize(href)));
+
+            const linkClass = `main-menu__link ${isActive ? 'main-menu__link--current' : ''}`;
+
             return (<li key={item.id} className="main-menu__item">
               <Link href={href} className="main-menu__link" legacyBehavior>
-                <a href={href} className="main-menu__link">{item.title}</a>
+                <a href={href} className={linkClass}>{item.title}</a>
               </Link>
             </li>)
           })}
@@ -147,6 +158,10 @@ export default function MainMenu({ items = [] }) {
           color: #000;
           font-weight: 600;
           white-space: nowrap;
+        }
+        .main-menu__link--current {
+          padding-bottom: calc(1.5rem - 2px);
+          border-bottom: 2px solid black;
         }
         .main-menu__link:first-child {
           padding-left: 1rem;

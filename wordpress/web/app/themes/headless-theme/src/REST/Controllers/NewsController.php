@@ -31,6 +31,20 @@ class NewsController {
                 ],
             ],
         ] );
+
+        // GET /headless-news/v1/news/slug/{slug}
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/slug/(?P<slug>[a-zA-Z0-9_-]+)', [
+            'methods'             => 'GET',
+            'callback'            => [ $this, 'get_item_by_slug' ],
+            'permission_callback' => '__return_true',
+            'args'                => [
+                'slug' => [
+                    'validate_callback' => function( $param ) {
+                        return is_string( $param ) && ! empty( $param );
+                    },
+                ],
+            ],
+        ] );
     }
 
     /**
@@ -87,6 +101,21 @@ class NewsController {
         }
         $data = $this->prepare_item( $post, $request );
         return rest_ensure_response( $data );
+    }
+
+    /**
+     * Get a single news post by slug
+     *
+     * @param \WP_REST_Request $request
+     * @return \WP_REST_Response
+     */
+    public function get_item_by_slug( $request ) {
+        $slug = $request['slug'];
+        $post = get_page_by_path( $slug, OBJECT, 'post' );
+        if ( ! $post || $post->post_type !== 'post' ) {
+            return new \WP_Error( 'rest_not_found', 'News not found', [ 'status' => 404 ] );
+        }
+        return $this->prepare_item( $post, $request );
     }
 
     /**

@@ -1,4 +1,5 @@
 import Title from './typography/Title';
+import Link from 'next/link';
 import { getThumbnail } from '../lib/utils';
 
 export default function NewsGrid({ posts, className = '', additionalClasses = [] }) {
@@ -18,75 +19,96 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
   return (
     <div className={combinedClasses}>
       {/* Hero row – spans first two columns */}
-      <div className="news-grid__hero">
-        <div className="news-grid__hero-text">
-          <Title tag="h1" size="h1" className="news-grid__hero-title">
-            {article1.title}
-          </Title>
-		  <p className="news-grid__hero-excerpt">{article1.excerpt}</p>
+      <Link href={`/${article1.slug}`} legacyBehavior>
+        <div className="news-grid__hero">
+          <div className="news-grid__hero-text">
+            
+            <Title tag="h1" size="h1" className="news-grid__hero-title">
+              <a className="news-grid__link" href={`/${article1.slug}`}>{article1.title}</a>
+            </Title>
+            <p className="news-grid__hero-excerpt">{article1.excerpt}</p>
+          </div>
+          <figure className="news-grid__hero-image">
+            <a className="news-grid__link" href={`/${article1.slug}`}>
+              <img
+                src={heroImagePost.featured_image?.url}
+                alt={heroImagePost.title}
+              />
+            </a>
+          </figure>
         </div>
-        <figure className="news-grid__hero-image">
-          <img
-            src={heroImagePost.featured_image?.url}
-            alt={heroImagePost.title}
-          />
-        </figure>
-      </div>
+      </Link>
 
       {/* Left bottom column */}
       <div className="news-grid__left-bottom">
-        <article className="news-grid__card--vertical">
-          <div>
+        <Link href={`/${article4.slug}`} legacyBehavior>
+          <article className="news-grid__card--vertical">
+            <div>
+              <Title tag="h3" size="h4" className="news-grid__card-title">
+                <a className="news-grid__link" href={`/${article4.slug}`}>{article4.title}</a>
+              </Title>
+              <p className="news-grid__card-excerpt">{article4.excerpt}</p>
+            </div>
+          </article>
+        </Link>
+        <Link href={`/${article5.slug}`} legacyBehavior>
+          <article className="news-grid__card--vertical news-grid__card--no-excerpt">
             <Title tag="h3" size="h4" className="news-grid__card-title">
-              {article4.title}
+              <a className="news-grid__link" href={`/${article5.slug}`}>{article5.title}</a>
             </Title>
-			<p className="news-grid__card-excerpt">{article4.excerpt}</p>
-          </div>
-        </article>
-        <article className="news-grid__card--vertical news-grid__card--no-excerpt">
-          <Title tag="h3" size="h4" className="news-grid__card-title">
-            {article5.title}
-          </Title>
-        </article>
+          </article>
+        </Link>
       </div>
 
       {/* Center bottom column */}
       <div className="news-grid__center-bottom">
-        <article className="news-grid__card">
-          {getThumbnail(article2) && (
-            <img className="news-grid__thumb-horizontal" src={getThumbnail(article2)} alt={article2.title} />
-          )}
-          <div>
-            <Title tag="h3" size="h4" className="news-grid__card-title">
-              {article2.title}
-            </Title>
-			<p className="news-grid__card-excerpt">{article2.excerpt}</p>
-          </div>
-        </article>
+        <Link href={`/${article2.slug}`} legacyBehavior>
+          <article className="news-grid__card">
+            {getThumbnail(article2) && (
+              <a className="news-grid__link" href={`/${article2.slug}`}>
+                <img className="news-grid__thumb-horizontal" src={getThumbnail(article2)} alt={article2.title} />
+              </a>
+            )}
+            <div>
+              <Title tag="h3" size="h4" className="news-grid__card-title">
+                <a className="news-grid__link" href={`/${article2.slug}`}>{article2.title}</a>
+              </Title>
+              <p className="news-grid__card-excerpt">{article2.excerpt}</p>
+            </div>
+          </article>
+        </Link>
+        <Link href={`/${article3.slug}`} legacyBehavior>
         <article className="news-grid__card">
           {getThumbnail(article3) && (
-            <img className="news-grid__thumb-horizontal" src={getThumbnail(article3)} alt={article3.title} />
+            <a className="news-grid__link" href={`/${article3.slug}`}>
+              <img className="news-grid__thumb-horizontal" src={getThumbnail(article3)} alt={article3.title} />
+            </a>
           )}
           <div>
             <Title tag="h3" size="h4" className="news-grid__card-title">
-              {article3.title}
+              <a className="news-grid__link" href={`/${article3.slug}`}>{article3.title}</a>
             </Title>
-			<p className="news-grid__card-excerpt">{article3.excerpt}</p>
+			      <p className="news-grid__card-excerpt">{article3.excerpt}</p>
           </div>
         </article>
+        </Link>
       </div>
 
       {/* Right column (vertical list) */}
       <div className="news-grid__right-col">
         {rightColumnPosts.map((post) => (
-          <article key={post.id} className="news-grid__card--inline">
-            <Title tag="h4" size="h5" className="news-grid__inline-title">
-              {post.title}
-            </Title>
-            {getThumbnail(post) && (
-              <img className="news-grid__thumb-inline" src={getThumbnail(post)} alt={post.title} />
-            )}
-          </article>
+          <Link href={`/${post.slug}`} legacyBehavior>
+            <article key={post.id} className="news-grid__card--inline">
+              <Title tag="h4" size="h5" className="news-grid__inline-title">
+                <a className="news-grid__link" href={`/${post.slug}`}>{post.title}</a>
+              </Title>
+              {getThumbnail(post) && (
+                <a className="news-grid__link" href={`/${post.slug}`}>
+                  <img className="news-grid__thumb-inline" src={getThumbnail(post)} alt={post.title} />
+                </a>
+              )}
+            </article>
+          </Link>
         ))}
       </div>
 
@@ -215,6 +237,10 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
           flex-basis: 50%;
           font-size: 0.9rem;
           margin: 0;
+        }
+        .news-grid__link {
+          color: #000;
+          text-decoration: none;
         }
 
         /* ---------- Responsive ---------- */

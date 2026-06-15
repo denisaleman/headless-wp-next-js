@@ -60,14 +60,24 @@ class MenuSeeder {
 
         $added = 0;
         foreach ( $sorted_categories as $cat ) {
-            $item_data = [
-                'menu-item-title'     => $cat->name,
-                'menu-item-url'       => get_term_link( $cat ),
-                'menu-item-status'    => 'publish',
-                'menu-item-type'      => 'taxonomy',
-                'menu-item-object'    => 'category',
-                'menu-item-object-id' => $cat->term_id,
-            ];
+            // For "Top News", link to homepage; otherwise use category archive
+            if ( strtolower( $cat->name ) === 'top news' ) {
+                $item_data = [
+                    'menu-item-title'  => $cat->name,
+                    'menu-item-url'    => '/',
+                    'menu-item-status' => 'publish',
+                    'menu-item-type'   => 'custom',
+                ];
+            } else {
+                $item_data = [
+                    'menu-item-title'     => $cat->name,
+                    'menu-item-url'       => get_term_link( $cat ),
+                    'menu-item-status'    => 'publish',
+                    'menu-item-type'      => 'taxonomy',
+                    'menu-item-object'    => 'category',
+                    'menu-item-object-id' => $cat->term_id,
+                ];
+            }
             $item_id = wp_update_nav_menu_item( $menu_id, 0, $item_data );
             if ( ! is_wp_error( $item_id ) ) {
                 $added++;
@@ -85,7 +95,6 @@ class MenuSeeder {
 
         return true;
     }
-
 
     /**
      * Delete the main menu if it exists.

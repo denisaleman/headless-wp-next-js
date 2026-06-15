@@ -49,27 +49,24 @@ export default function CategoryPage({ initialMenuItems }) {
   const categoryName = slug ? slug.charAt(0).toUpperCase() + slug.slice(1).replace(/-/g, ' ') : 'Category';
 
   return (
-    <div className="news-page">
-      <header className="news-page__header">
-        <MainMenu items={menuItems} />
-      </header>
-      <h1 className="news-page__title">{categoryName}</h1>
-      {posts.length === 0 ? (
-        <p>No news found in this category.</p>
-      ) : (
+    <>
+      <div className="news-page">
+        <h1 className="news-page__title">Headless WordPress + Next.js</h1>
+        <header className="news-page__header">
+          <MainMenu items={menuItems} />
+        </header>
         <NewsGrid posts={posts} className="news-page__grid" />
-      )}
+      </div>
+
       <style jsx>{`
-        .news-page {
-          display: flex;
-          flex-direction: column;
-          max-width: 1232px;
-          margin: 0 auto;
-        }
-        .news-page__title {
-          margin: 1rem 0;
-        }
+          /* ---------- Main grid ---------- */
+          .news-page {
+              display: flex;
+              flex-direction: column;
+              max-width: 1232px;
+              margin: 0 auto;
+          }
       `}</style>
-    </div>
+  </>
   );
 }

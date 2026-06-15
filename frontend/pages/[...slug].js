@@ -1,48 +1,18 @@
 import { useRouter } from 'next/router';
-import { useState, useEffect } from 'react';
 import MainMenu from '../components/MainMenu';
 import Title from '../components/typography/Title';
+import { useWordPressPost, useWordPressMenu } from '../hooks/useWordPressData';
 
-export default function CatchAllPage({ initialMenuItems }) {
+export default function CatchAllPage() {
   const router = useRouter();
   const { slug } = router.query; // slug is an array of path segments
-  const [post, setPost] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const [menuItems, setMenuItems] = useState(initialMenuItems || []);
 
-  useEffect(() => {
-    if (!slug || slug.length === 0) return;
-    const postSlug = slug[0]; // first segment is the post slug
-    const wpUrl = process.env.NEXT_PUBLIC_WP_URL || 'http://localhost';
-    fetch(`${wpUrl}/wp-json/headless-news/v1/news/slug/${postSlug}`)
-      .then(res => {
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        return res.json();
-      })
-      .then(data => {
-        setPost(data);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.error(err);
-        setError('Article not found');
-        setLoading(false);
-      });
-  }, [slug]);
+  const postSlug = slug && slug.length > 0 ? slug[0] : null;
+  const { post, loading: postLoading, error: postError } = useWordPressPost(postSlug);
+  const { menuItems, loading: menuLoading, error: menuError } = useWordPressMenu();
 
-  useEffect(() => {
-    if (!initialMenuItems) {
-      const wpUrl = process.env.NEXT_PUBLIC_WP_URL || 'http://localhost';
-      fetch(`${wpUrl}/wp-json/headless-news/v1/menu/primary`)
-        .then(res => res.json())
-        .then(setMenuItems)
-        .catch(console.error);
-    }
-  }, [initialMenuItems]);
-
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>{error}</div>;
+  if (postLoading || menuLoading) return <div>Loading...</div>;
+  if (postError) return <div>{postError}</div>;
   if (!post) return null;
 
   return (
@@ -52,12 +22,12 @@ export default function CatchAllPage({ initialMenuItems }) {
       </header>
       <article className="news-article">
         {post.featured_image?.url && (
-			<figure className="news-article__featured-image">
+          <figure className="news-article__featured-image">
             <img src={post.featured_image.url} alt={post.title} />
           </figure>
         )}
-		<Title tag="h1" size="h1" className="news-article__title">{post.title}</Title>
-		<div className="news-article__lead">{post.excerpt}</div>
+        <Title tag="h1" size="h1" className="news-article__title">{post.title}</Title>
+        <div className="news-article__lead">{post.excerpt}</div>
         <div className="news-article__content" dangerouslySetInnerHTML={{ __html: post.content }} />
         <div className="news-article__meta">
           {post.date && <time dateTime={post.date}>{new Date(post.date).toLocaleDateString()}</time>}

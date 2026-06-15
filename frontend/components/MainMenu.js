@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import Link from 'next/link';
 
 export default function MainMenu({ items = [] }) {
   const scrollContainerRef = useRef(null);
@@ -66,13 +67,20 @@ export default function MainMenu({ items = [] }) {
         onTouchEnd={handleTouchEnd}
       >
         <ul className="main-menu__list">
-          {items.map(item => (
-            <li key={item.id} className="main-menu__item">
-              <a href={item.url} className="main-menu__link">
-                {item.title}
-              </a>
-            </li>
-          ))}
+          {items.map(item => {
+            let href = item.url;
+            try {
+              const url = new URL(item.url);
+              href = url.pathname + url.search;
+            } catch (e) {
+              // it's already relative
+            }
+            return (<li key={item.id} className="main-menu__item">
+              <Link href={href} className="main-menu__link" legacyBehavior>
+                <a href={href} className="main-menu__link">{item.title}</a>
+              </Link>
+            </li>)
+          })}
         </ul>
       </div>
 

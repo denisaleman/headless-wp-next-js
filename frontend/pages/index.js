@@ -10,7 +10,7 @@ export default function Home({ initialMenuItems }) {
 
   useEffect(() => {
     const wpUrl = process.env.NEXT_PUBLIC_WP_URL || 'http://localhost';
-    const url = `${wpUrl}/wp-json/headless-news/v1/news?per_page=20&orderby=date&order=desc`;
+    const url = `${wpUrl}/wp-json/headless-news/v1/news?category_slug=top-news&per_page=20&orderby=date&order=desc`;
 
     fetch(url)
       .then(res => {

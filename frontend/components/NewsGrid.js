@@ -242,6 +242,13 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
 
         .title.news-grid__inline-title {
           font-weight: 600;
+          display: -webkit-box;
+          -webkit-line-clamp: 5;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          word-break: break-word;
+          line-height: 1.25;
+          max-height: 80%;
         }
         .title.news-grid__hero-title {
           font-size: 1.85rem;

@@ -2,20 +2,19 @@
 namespace Gafotas\HeadlessNewsTheme;
 
 class Bootstrap {
-    protected $providers = [
-        News\ServiceProvider::class,
-		DemoContent\ServiceProvider::class,
-		REST\ServiceProvider::class,
-		Theme\ThumbnailSizes::class,
-		Theme\Menus::class,
+    protected $modules = [
+		Menu\MenuModule::class,
+        News\NewsModule::class,
+		Media\MediaModule::class,
+		DemoContent\DemoContentModule::class,
     ];
 
     public function run() {
-        foreach ( $this->providers as $provider_class ) {
-            if ( class_exists( $provider_class ) ) {
-                $provider = new $provider_class();
-                if ( method_exists( $provider, 'register' ) ) {
-                    $provider->register();
+        foreach ( $this->modules as $module ) {
+            if ( class_exists( $module ) ) {
+                $module = new $module();
+                if ( method_exists( $module, 'register' ) ) {
+                    $module->register();
                 }
             }
         }

@@ -1,7 +1,7 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\REST\Controllers;
+namespace Gafotas\HeadlessNewsTheme\Menu\REST;
 
-use Gafotas\HeadlessNewsTheme\Menu\MenuModel;
+use Gafotas\HeadlessNewsTheme\Menu\Models\MenuModel;
 
 class MenuController {
     private $menu_model;

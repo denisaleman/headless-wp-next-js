@@ -1,7 +1,7 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\Common;
+namespace Gafotas\HeadlessNewsTheme\Menu\Cache;
 
-class CacheHooks {
+class CacheSetup {
     public function register() {
         $this->register_invalidation_hooks();
     }

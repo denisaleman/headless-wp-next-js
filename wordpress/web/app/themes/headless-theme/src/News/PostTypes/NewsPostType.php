@@ -7,7 +7,7 @@
 
 namespace Gafotas\HeadlessNewsTheme\News\PostTypes;
 
-class PostType {
+class NewsPostType {
 
     /**
      * Register hooks.

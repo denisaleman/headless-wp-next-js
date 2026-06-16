@@ -1,7 +1,7 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\Theme;
+namespace Gafotas\HeadlessNewsTheme\Media\Hooks;
 
-class ThumbnailSizes {
+class ThumbnailSizesSetup {
     /**
      * Definition of custom image sizes.
      * Each entry: [ string $slug, int $width, int $height, bool $crop ]

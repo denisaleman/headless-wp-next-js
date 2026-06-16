@@ -1,7 +1,7 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\Theme;
+namespace Gafotas\HeadlessNewsTheme\Menu\Hooks;
 
-class Menus {
+class MenuSetup {
     public function register() {
         add_action('after_setup_theme', [$this, 'register_nav_menus']);
         add_filter('rest_prepare_nav_menu', [$this, 'prepare_nav_menu'], 10, 3);

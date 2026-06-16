@@ -1,5 +1,5 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\DemoContent;
+namespace Gafotas\HeadlessNewsTheme\DemoContent\Seeders;
 
 abstract class BaseSeeder {
     protected $demo_dir;

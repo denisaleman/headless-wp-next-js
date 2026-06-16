@@ -1,5 +1,5 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\Menu;
+namespace Gafotas\HeadlessNewsTheme\Menu\Models;
 
 class MenuModel {
     protected $ttl = 3600; // Cache time-to-live in seconds (1 hour)

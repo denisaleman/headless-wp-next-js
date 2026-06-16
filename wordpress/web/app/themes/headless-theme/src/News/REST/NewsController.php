@@ -1,7 +1,7 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\REST\Controllers;
+namespace Gafotas\HeadlessNewsTheme\News\REST;
 
-use Gafotas\HeadlessNewsTheme\Theme\ThumbnailSizes;
+use Gafotas\HeadlessNewsTheme\Media\Hooks\ThumbnailSizesSetup;
 
 class NewsController {
     protected $namespace = 'headless-news/v1';
@@ -150,7 +150,7 @@ class NewsController {
                     'height' => $image[2],
                 ];
                 // Add custom sizes from ThumbnailSizes class
-                $custom_sizes = ThumbnailSizes::get_custom_sizes();
+                $custom_sizes = ThumbnailSizesSetup::get_custom_sizes();
                 foreach ( $custom_sizes as $size ) {
                     $src = wp_get_attachment_image_src( $thumbnail_id, $size );
                     if ( $src ) {

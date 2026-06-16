@@ -2,8 +2,9 @@
 namespace Gafotas\HeadlessNewsTheme\DemoContent;
 
 use WP_CLI;
+use Gafotas\HeadlessNewsTheme\DemoContent\Seeders\{CategorySeeder, MenuSeeder, NewsSeeder};
 
-class ServiceProvider {
+class DemoContentModule {
     public function register() {
         if ( defined( 'WP_CLI' ) && WP_CLI ) {
             WP_CLI::add_command( 'demo-content import', [ $this, 'import_command' ] );

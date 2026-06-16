@@ -1,5 +1,5 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\DemoContent;
+namespace Gafotas\HeadlessNewsTheme\DemoContent\Seeders;
 
 use WP_CLI;
 

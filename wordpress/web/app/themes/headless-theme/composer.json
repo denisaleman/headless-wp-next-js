@@ -12,5 +12,9 @@
             "name": "Denis Alemán"
         }
     ],
-    "require": {}
+    "require": {},
+    "scripts": {
+        "lint": "phpcs",
+        "fix": "phpcbf"
+    }
 }

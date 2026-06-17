@@ -18,6 +18,7 @@ export default function CatchAllPage() {
   return (
     <div className="news-page">
       <header className="news-page__header">
+		<h1 className="news-page__title">Headless WordPress + Next.js</h1>
         <MainMenu items={menuItems} />
       </header>
       <article className="news-article">

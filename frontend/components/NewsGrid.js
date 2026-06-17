@@ -6,11 +6,10 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
   if (!posts || posts.length < 11) return null;
 
   const article1 = posts[0];
-  const heroImagePost = posts[1];
-  const article2 = posts[2];
-  const article3 = posts[3];
-  const article4 = posts[4];
-  const article5 = posts[5];
+  const article2 = posts[1];
+  const article3 = posts[2];
+  const article4 = posts[3];
+  const article5 = posts[4];
   const rightColumnPosts = posts.slice(6, 12);
 
   const mandatoryClasses = ['news-grid', 'news-grid--layout', className, ...additionalClasses];
@@ -31,8 +30,8 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
           <figure className="news-grid__hero-image">
             <a className="news-grid__link" href={`/${article1.slug}`}>
               <img
-                src={heroImagePost.featured_image?.url}
-                alt={heroImagePost.title}
+                src={article1.featured_image?.url}
+                alt={article1.title}
               />
             </a>
           </figure>

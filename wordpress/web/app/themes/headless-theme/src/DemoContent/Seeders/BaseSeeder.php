@@ -8,7 +8,7 @@ abstract class BaseSeeder {
     protected $stats = [];
 
     public function __construct() {
-        $this->demo_dir = dirname( __DIR__, 1 ) . '/DemoContent/news';
+        $this->demo_dir = dirname( __DIR__, 1 ) . '/news';
         $this->images_dir = $this->demo_dir;
     }
 

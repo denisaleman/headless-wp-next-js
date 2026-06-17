@@ -4,116 +4,121 @@ namespace Gafotas\HeadlessNewsTheme\DemoContent\Seeders;
 use WP_CLI;
 
 class MenuSeeder {
-    private $menu_name = 'Main Menu';
-    private $menu_location = 'primary';
+	private $menu_name = 'Main Menu';
+	private $menu_location = 'primary';
 
-    /**
-     * Create the main menu with all categories.
-     *
-     * @return bool True on success, false on failure.
-     */
-    public function create() {
-        $existing_menu = wp_get_nav_menu_object( $this->menu_name );
-        if ( $existing_menu ) {
-            WP_CLI::log( "Menu '{$this->menu_name}' already exists. Skipping creation." );
-            return true;
-        }
+	/**
+	 * Create the main menu with all categories.
+	 *
+	 * @return bool True on success, false on failure.
+	 */
+	public function create() {
+		$existing_menu = wp_get_nav_menu_object( $this->menu_name );
+		if ( $existing_menu ) {
+			WP_CLI::log( "Menu '{$this->menu_name}' already exists. Skipping creation." );
+			return true;
+		}
 
-        $menu_id = wp_create_nav_menu( $this->menu_name );
-        if ( is_wp_error( $menu_id ) ) {
-            WP_CLI::warning( "Failed to create menu: " . $menu_id->get_error_message() );
-            return false;
-        }
+		$menu_id = wp_create_nav_menu( $this->menu_name );
+		if ( is_wp_error( $menu_id ) ) {
+			WP_CLI::warning( 'Failed to create menu: ' . $menu_id->get_error_message() );
+			return false;
+		}
 
-        $categories = get_terms( [
-            'taxonomy'   => 'category',
-            'hide_empty' => false,
-        ] );
+		$categories = get_terms(
+			[
+				'taxonomy'   => 'category',
+				'hide_empty' => false,
+			]
+		);
 
-        if ( empty( $categories ) ) {
-            WP_CLI::log( "No categories found to add to menu." );
-            return true;
-        }
+		if ( empty( $categories ) ) {
+			WP_CLI::log( 'No categories found to add to menu.' );
+			return true;
+		}
 
-        // Sort categories: "Top News" first, then by post count descending
-        $top_news = null;
-        $others = [];
+		// Sort categories: "Top News" first, then by post count descending
+		$top_news = null;
+		$others = [];
 
-        foreach ( $categories as $cat ) {
-            if ( strtolower( $cat->name ) === 'top news' ) {
-                $top_news = $cat;
-            } else {
-                $others[] = $cat;
-            }
-        }
+		foreach ( $categories as $cat ) {
+			if ( strtolower( $cat->name ) === 'top news' ) {
+				$top_news = $cat;
+			} else {
+				$others[] = $cat;
+			}
+		}
 
-        // Sort others by post count (higher first)
-        usort( $others, function( $a, $b ) {
-            return $b->count - $a->count;
-        } );
+		// Sort others by post count (higher first)
+		usort(
+			$others,
+			function ( $a, $b ) {
+				return $b->count - $a->count;
+			}
+		);
 
-        $sorted_categories = [];
-        if ( $top_news ) {
-            $sorted_categories[] = $top_news;
-        }
-        $sorted_categories = array_merge( $sorted_categories, $others );
+		$sorted_categories = [];
+		if ( $top_news ) {
+			$sorted_categories[] = $top_news;
+		}
+		$sorted_categories = array_merge( $sorted_categories, $others );
 
-        $added = 0;
-        foreach ( $sorted_categories as $cat ) {
-            // For "Top News", link to homepage; otherwise use category archive
-            if ( strtolower( $cat->name ) === 'top news' ) {
-                $item_data = [
-                    'menu-item-title'  => $cat->name,
-                    'menu-item-url'    => '/',
-                    'menu-item-status' => 'publish',
-                    'menu-item-type'   => 'custom',
-                ];
-            } else {
-                $item_data = [
-                    'menu-item-title'     => $cat->name,
-                    'menu-item-url'       => get_term_link( $cat ),
-                    'menu-item-status'    => 'publish',
-                    'menu-item-type'      => 'taxonomy',
-                    'menu-item-object'    => 'category',
-                    'menu-item-object-id' => $cat->term_id,
-                ];
-            }
-            $item_id = wp_update_nav_menu_item( $menu_id, 0, $item_data );
-            if ( ! is_wp_error( $item_id ) ) {
-                $added++;
-            } else {
-                WP_CLI::warning( "Failed to add category '{$cat->name}' to menu: " . $item_id->get_error_message() );
-            }
-        }
+		$added = 0;
+		foreach ( $sorted_categories as $cat ) {
+			// For "Top News", link to homepage; otherwise use category archive
+			if ( strtolower( $cat->name ) === 'top news' ) {
+				$item_data = [
+					'menu-item-title'  => $cat->name,
+					'menu-item-url'    => '/',
+					'menu-item-status' => 'publish',
+					'menu-item-type'   => 'custom',
+				];
+			} else {
+				$item_data = [
+					'menu-item-title'     => $cat->name,
+					'menu-item-url'       => get_term_link( $cat ),
+					'menu-item-status'    => 'publish',
+					'menu-item-type'      => 'taxonomy',
+					'menu-item-object'    => 'category',
+					'menu-item-object-id' => $cat->term_id,
+				];
+			}
+			$item_id = wp_update_nav_menu_item( $menu_id, 0, $item_data );
+			if ( ! is_wp_error( $item_id ) ) {
+				++$added;
+			} else {
+				WP_CLI::warning( "Failed to add category '{$cat->name}' to menu: " . $item_id->get_error_message() );
+			}
+		}
 
-        WP_CLI::log( "Added {$added} categories to menu '{$this->menu_name}'." );
+		WP_CLI::log( "Added {$added} categories to menu '{$this->menu_name}'." );
 
-        $locations = get_theme_mod( 'nav_menu_locations', [] );
-        $locations[ $this->menu_location ] = $menu_id;
-        set_theme_mod( 'nav_menu_locations', $locations );
-        WP_CLI::log( "Assigned menu '{$this->menu_name}' to location '{$this->menu_location}'." );
+		$locations = get_theme_mod( 'nav_menu_locations', [] );
+		$locations[ $this->menu_location ] = $menu_id;
+		set_theme_mod( 'nav_menu_locations', $locations );
+		WP_CLI::log( "Assigned menu '{$this->menu_name}' to location '{$this->menu_location}'." );
 
-        return true;
-    }
+		return true;
+	}
 
-    /**
-     * Delete the main menu if it exists.
-     *
-     * @return bool True on success, false on failure.
-     */
-    public function delete() {
-        $menu = wp_get_nav_menu_object( $this->menu_name );
-        if ( ! $menu ) {
-            WP_CLI::log( "Menu '{$this->menu_name}' not found." );
-            return true;
-        }
-        $deleted = wp_delete_nav_menu( $menu->term_id );
-        if ( $deleted ) {
-            WP_CLI::log( "Deleted menu '{$this->menu_name}'." );
-            return true;
-        } else {
-            WP_CLI::warning( "Failed to delete menu '{$this->menu_name}'." );
-            return false;
-        }
-    }
+	/**
+	 * Delete the main menu if it exists.
+	 *
+	 * @return bool True on success, false on failure.
+	 */
+	public function delete() {
+		$menu = wp_get_nav_menu_object( $this->menu_name );
+		if ( ! $menu ) {
+			WP_CLI::log( "Menu '{$this->menu_name}' not found." );
+			return true;
+		}
+		$deleted = wp_delete_nav_menu( $menu->term_id );
+		if ( $deleted ) {
+			WP_CLI::log( "Deleted menu '{$this->menu_name}'." );
+			return true;
+		} else {
+			WP_CLI::warning( "Failed to delete menu '{$this->menu_name}'." );
+			return false;
+		}
+	}
 }

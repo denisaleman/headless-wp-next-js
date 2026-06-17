@@ -12,9 +12,17 @@
             "name": "Denis Alemán"
         }
     ],
-    "require": {},
     "scripts": {
         "lint": "phpcs",
         "fix": "phpcbf"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.13",
+        "wp-coding-standards/wpcs": "^3.3"
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     }
 }

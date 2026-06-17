@@ -1,0 +1,10 @@
+{
+  "phpsab.showNotifications": "off",
+  "phpsab.standard": null,
+  "phpsab.executablePathCS": "wordpress/web/app/themes/headless-theme/vendor/bin/phpcs",
+  "phpsab.executablePathCBF": "wordpress/web/app/themes/headless-theme/vendor/bin/phpcbf",
+
+  "intelephense.environment.includePaths": [
+    "wordpress/web/app/themes/headless-theme/src"
+  ]
+}

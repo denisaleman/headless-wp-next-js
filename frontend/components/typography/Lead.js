@@ -8,7 +8,7 @@ export default function Lead({ children, className = '', additionalClasses = [] 
       <style jsx>{`
         .lead {
           font-size: 1.70rem;
-          width: 65ch;
+          max-width: 65ch;
           margin: 0;
         }
       `}</style>

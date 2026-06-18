@@ -50,8 +50,10 @@ export default function CatchAllPage() {
           line-height: 1.6;
           margin-bottom: 2rem;
         }
-        .news-article__content p {
+        .news-article__content :global(p) {
           margin-bottom: 1rem;
+          margin-top: 1rem;
+          font-size: 1.25rem;
         }
         .news-article__meta {
           display: flex;

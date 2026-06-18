@@ -8,6 +8,10 @@ export default function CatchAllPage() {
   const router = useRouter();
   const { slug } = router.query;
 
+  if (!router.isReady) {
+    return <div>Loading...</div>;
+  }
+
   const postSlug = slug && slug.length > 0 ? slug[0] : null;
   const { post, loading: postLoading, error: postError } = useWordPressPost(postSlug);
   const { menuItems, loading: menuLoading } = useWordPressMenu();

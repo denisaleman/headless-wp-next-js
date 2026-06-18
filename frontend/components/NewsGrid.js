@@ -160,6 +160,10 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
           -webkit-box-orient: vertical;
           overflow: hidden;
         }
+        .news-grid__card-excerpt,
+        .news-grid__hero-excerpt {
+          line-height: 1.35rem;
+        }
 
         /* Hero image – defines the row height */
         .news-grid__hero-image {
@@ -223,6 +227,9 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
           gap: 1rem;
           border-bottom: 1px dotted #ddd;
           padding-bottom: 0.75rem;
+        }
+        .news-grid__card--inline:last-child {
+          border-bottom: none;
         }
         .news-grid__thumb-inline {
           flex-basis: 50%;

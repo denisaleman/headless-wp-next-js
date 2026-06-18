@@ -47,7 +47,7 @@ export default function CatchAllPage() {
       </article>
       <style jsx>{`
         .news-article {
-          padding: 0;
+          padding: 0 1rem;
         }
         .news-article__featured-image {
           margin: 1.5rem 0;
@@ -72,7 +72,6 @@ export default function CatchAllPage() {
           gap: 1rem;
           align-items: center;
           flex-wrap: wrap;
-          border-top: 1px solid #ddd;
           padding-top: 1rem;
           color: #666;
           font-size: 0.875rem;

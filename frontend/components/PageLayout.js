@@ -23,6 +23,10 @@ export default function PageLayout({
           max-width: 1232px;
           margin: 0 auto;
         }
+        .page-layout__title {
+          padding-left: 1rem;
+          padding-right: 1rem;
+        }
         .page-layout__main {
           flex: 1;
         }

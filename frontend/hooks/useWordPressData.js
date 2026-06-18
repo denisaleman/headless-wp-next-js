@@ -28,14 +28,21 @@ export function useWordPressPosts(category = 'top-news') {
   return { posts, loading, error };
 }
 
-export function useWordPressMenu() {
+export function useWordPressMenu(location) {
   const [menuItems, setMenuItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    if (!location || typeof location !== 'string') {
+      setLoading(false);
+      setMenuItems([]);
+      setError(null);
+      return;
+    }
+
     const wpUrl = process.env.NEXT_PUBLIC_WP_URL || 'http://localhost';
-    fetch(`${wpUrl}/wp-json/headless-news/v1/menu/primary`)
+    fetch(`${wpUrl}/wp-json/headless-news/v1/menu/${location}`)
       .then(res => {
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
         return res.json();
@@ -49,7 +56,7 @@ export function useWordPressMenu() {
         setError('Failed to load menu');
         setLoading(false);
       });
-  }, []);
+  }, [location]);
 
   return { menuItems, loading, error };
 }

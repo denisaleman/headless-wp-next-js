@@ -1,0 +1,34 @@
+{
+  "menus": [
+    {
+      "name": "Categories",
+      "location": "footer-categories",
+      "items": [
+        { "title": "Top News", "url": "#" },
+        { "title": "Politics", "url": "#" },
+        { "title": "Business", "url": "#" },
+        { "title": "Technology", "url": "#" }
+      ]
+    },
+    {
+      "name": "About",
+      "location": "footer-about",
+      "items": [
+        { "title": "About Us", "url": "#" },
+        { "title": "Contact", "url": "#" },
+        { "title": "Careers", "url": "#" },
+        { "title": "Editorial Team", "url": "#" }
+      ]
+    },
+    {
+      "name": "Legal",
+      "location": "footer-legal",
+      "items": [
+        { "title": "Privacy Policy", "url": "#" },
+        { "title": "Terms of Service", "url": "#" },
+        { "title": "Cookie Policy", "url": "#" },
+        { "title": "Accessibility", "url": "#" }
+      ]
+    }
+  ]
+}

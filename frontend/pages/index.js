@@ -4,7 +4,7 @@ import { useWordPressPosts, useWordPressMenu } from '../hooks/useWordPressData';
 
 export default function Home() {
   const { posts, loading: postsLoading, error: postsError } = useWordPressPosts('top-news');
-  const { menuItems, loading: menuLoading } = useWordPressMenu();
+  const { menuItems, loading: menuLoading } = useWordPressMenu('header');
 
   if (postsLoading || menuLoading) return <div>Loading news...</div>;
   if (postsError) return <div>Error: {postsError}</div>;

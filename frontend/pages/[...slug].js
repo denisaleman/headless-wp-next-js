@@ -14,7 +14,7 @@ export default function CatchAllPage() {
 
   const postSlug = slug && slug.length > 0 ? slug[0] : null;
   const { post, loading: postLoading, error: postError } = useWordPressPost(postSlug);
-  const { menuItems, loading: menuLoading } = useWordPressMenu();
+  const { menuItems, loading: menuLoading } = useWordPressMenu('header');
 
   if (postLoading || menuLoading) return <div>Loading...</div>;
   if (postError) return <div>{postError}</div>;

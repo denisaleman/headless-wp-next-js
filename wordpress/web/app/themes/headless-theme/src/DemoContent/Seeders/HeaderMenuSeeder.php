@@ -3,9 +3,9 @@ namespace Gafotas\HeadlessNewsTheme\DemoContent\Seeders;
 
 use WP_CLI;
 
-class MenuSeeder {
-	private $menu_name = 'Main Menu';
-	private $menu_location = 'primary';
+class HeaderMenuSeeder {
+	private $menu_name = 'Header Menu';
+	private $menu_location = 'header';
 
 	/**
 	 * Create the main menu with all categories.

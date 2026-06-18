@@ -12,7 +12,7 @@ export default function CategoryPage() {
   }
 
   const { posts, loading: postsLoading, error: postsError } = useWordPressPosts(slug);
-  const { menuItems, loading: menuLoading } = useWordPressMenu();
+  const { menuItems, loading: menuLoading } = useWordPressMenu('header');
 
   if (postsLoading || menuLoading) return <div>Loading category...</div>;
   if (postsError) return <div>{postsError}</div>;

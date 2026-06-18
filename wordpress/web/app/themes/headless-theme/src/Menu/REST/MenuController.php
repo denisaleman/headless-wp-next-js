@@ -33,7 +33,7 @@ class MenuController {
 
 		register_rest_route(
 			'headless-news/v1',
-			'/menus',
+			'/menus/(?P<locations>[a-zA-Z0-9_,-]+)',
 			[
 				'methods'             => 'GET',
 				'callback'            => [ $this, 'get_menus_by_locations' ],

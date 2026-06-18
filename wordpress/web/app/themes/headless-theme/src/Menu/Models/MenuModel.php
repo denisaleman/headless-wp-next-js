@@ -40,28 +40,18 @@ class MenuModel {
 			return [];
 		}
 
-		$items_by_id = [];
+		$items = [];
 		foreach ( $menu_items as $item ) {
-			$items_by_id[ $item->ID ] = [
-				'id'       => $item->ID,
-				'title'    => $item->title,
-				'url'      => $item->url,
-				'parent'   => $item->menu_item_parent,
-				'classes'  => implode( ' ', $item->classes ),
-				'target'   => $item->target,
-				'children' => [],
+			$items[] = [
+				'id'      => $item->ID,
+				'title'   => $item->title,
+				'url'     => $item->url,
+				'parent'  => (int) $item->menu_item_parent,
+				'classes' => implode( ' ', $item->classes ),
+				'target'  => $item->target,
 			];
 		}
-
-		$tree = [];
-		foreach ( $items_by_id as $id => &$item ) {
-			if ( $item['parent'] ) {
-				$tree[] = &$item;
-			} elseif ( isset( $items_by_id[ $item['parent'] ] ) ) {
-					$items_by_id[ $item['parent'] ]['children'][] = &$item;
-			}
-		}
-		return $tree;
+		return $items;
 	}
 
 	/**

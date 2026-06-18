@@ -13,7 +13,7 @@ export default function Home() {
   return (
     <div className="news-page">
       <header className="news-page__header">
-		<h1 className="news-page__title">Headless WordPress + Next.js</h1>
+        <h1 className="news-page__title">Headless WordPress + Next.js</h1>
         <MainMenu items={menuItems} />
       </header>
       <NewsGrid posts={posts} className="news-page__grid" />

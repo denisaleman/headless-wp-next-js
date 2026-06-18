@@ -30,6 +30,24 @@ class MenuController {
 				],
 			]
 		);
+
+		register_rest_route(
+			'headless-news/v1',
+			'/menus',
+			[
+				'methods'             => 'GET',
+				'callback'            => [ $this, 'get_menus_by_locations' ],
+				'permission_callback' => '__return_true',
+				'args'                => [
+					'locations' => [
+						'required'          => true,
+						'validate_callback' => function ( $param ) {
+							return is_string( $param ) && ! empty( $param );
+						},
+					],
+				],
+			]
+		);
 	}
 
 	public function validate_location( $param ) {
@@ -39,6 +57,12 @@ class MenuController {
 	public function get_menu( $request ) {
 		$location = $request['location'];
 		$data = $this->menu_model->get_menu_by_location( $location );
+		return rest_ensure_response( $data );
+	}
+
+	public function get_menus_by_locations( $request ) {
+		$locations = $request['locations'];
+		$data = $this->menu_model->get_menus_by_locations( $locations );
 		return rest_ensure_response( $data );
 	}
 }

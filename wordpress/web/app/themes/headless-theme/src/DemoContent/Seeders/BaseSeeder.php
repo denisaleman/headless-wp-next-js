@@ -22,13 +22,17 @@ abstract class BaseSeeder {
 	}
 
 	/**
-	 * Read and decode a JSON file.
+	 * Read and decode a JSON file (local file, not URL).
 	 *
 	 * @param string $file_path
 	 * @return array|null
 	 */
 	protected function read_json_file( $file_path ) {
-		$content = wp_remote_get( $file_path );
+		if ( ! file_exists( $file_path ) ) {
+			$this->log_error( "File not found: {$file_path}" );
+			return null;
+		}
+		$content = file_get_contents( $file_path ); // PHPCS:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		return json_decode( $content, true );
 	}
 
@@ -45,7 +49,11 @@ abstract class BaseSeeder {
 		require_once ABSPATH . 'wp-admin/includes/file.php';
 		require_once ABSPATH . 'wp-admin/includes/media.php';
 
-		$file_content = wp_remote_get( $file_path );
+		if ( ! file_exists( $file_path ) ) {
+			return new \WP_Error( 'file_not_found', "File not found: {$file_path}" );
+		}
+
+		$file_content = file_get_contents( $file_path ); // PHPCS:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 		if ( false === $file_content ) {
 			return new \WP_Error( 'read_failed', "Could not read file: {$file_path}" );
 		}

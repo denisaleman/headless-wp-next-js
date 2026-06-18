@@ -1,26 +1,22 @@
 import { useRouter } from 'next/router';
-import MainMenu from '../components/MainMenu';
+import PageLayout from '../components/PageLayout';
 import Title from '../components/typography/Title';
 import { useWordPressPost, useWordPressMenu } from '../hooks/useWordPressData';
 
 export default function CatchAllPage() {
   const router = useRouter();
-  const { slug } = router.query; // slug is an array of path segments
+  const { slug } = router.query;
 
   const postSlug = slug && slug.length > 0 ? slug[0] : null;
   const { post, loading: postLoading, error: postError } = useWordPressPost(postSlug);
-  const { menuItems, loading: menuLoading, error: menuError } = useWordPressMenu();
+  const { menuItems, loading: menuLoading } = useWordPressMenu();
 
   if (postLoading || menuLoading) return <div>Loading...</div>;
   if (postError) return <div>{postError}</div>;
   if (!post) return null;
 
   return (
-    <div className="news-page">
-      <header className="news-page__header">
-        <h1 className="news-page__title">Headless WordPress + Next.js</h1>
-        <MainMenu items={menuItems} />
-      </header>
+    <PageLayout title="Headless WordPress + Next.js" menuItems={menuItems}>
       <article className="news-article">
         {post.featured_image?.url && (
           <figure className="news-article__featured-image">
@@ -37,13 +33,8 @@ export default function CatchAllPage() {
         </div>
       </article>
       <style jsx>{`
-        .news-page {
-          max-width: 1232px;
-          margin: 0 auto;
-          padding: 0 1rem;
-        }
         .news-article {
-          padding: 0 1rem;
+          padding: 0;
         }
         .news-article__featured-image {
           margin: 1.5rem 0;
@@ -87,6 +78,6 @@ export default function CatchAllPage() {
           margin-bottom: 1.5rem;
         }
       `}</style>
-    </div>
+    </PageLayout>
   );
 }

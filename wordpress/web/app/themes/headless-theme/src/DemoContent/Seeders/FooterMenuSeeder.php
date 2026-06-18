@@ -36,7 +36,7 @@ class FooterMenuSeeder {
 				continue;
 			}
 
-			$menu_name = 'Footer: ' . $menu_config['name'];
+			$menu_name = $menu_config['name'];
 			$location  = $menu_config['location'];
 			$items = $menu_config['items'];
 
@@ -102,7 +102,7 @@ class FooterMenuSeeder {
 
 		$success = true;
 		foreach ( $data['menus'] as $menu_config ) {
-			$menu_name = 'Footer: ' . $menu_config['name'];
+			$menu_name = $menu_config['name'];
 			$menu = wp_get_nav_menu_object( $menu_name );
 			if ( ! $menu ) {
 				continue;

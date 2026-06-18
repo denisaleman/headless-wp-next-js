@@ -11,7 +11,7 @@
       ]
     },
     {
-      "name": "About",
+      "name": "Company",
       "location": "footer-about",
       "items": [
         { "title": "About Us", "url": "#" },

@@ -2,12 +2,14 @@ import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-export default function MainMenu({ items = [] }) {
+export default function HeaderMenu({ menuData = {} }) {
   const router = useRouter();
   const scrollContainerRef = useRef(null);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
   const [scrollLeft, setScrollLeft] = useState(0);
+
+  const items = menuData.items || [];
 
   if (!items.length) return null;
 
@@ -80,7 +82,7 @@ export default function MainMenu({ items = [] }) {
 
             const currentPath = router.asPath.split('?')[0];
             const normalize = (str) => str.replace(/\/$/, '');
-            const isActive = normalize(href) === normalize(currentPath) || 
+            const isActive = normalize(href) === normalize(currentPath) ||
                             (href === '/' && currentPath === '') ||
                             (href !== '/' && currentPath.startsWith(normalize(href)));
 

@@ -1,15 +1,20 @@
-import MainMenu from './MainMenu';
+import HeaderMenu from './HeaderMenu';
 import Footer from './Footer';
 
-export default function PageLayout({ title, menuItems, children }) {
+export default function PageLayout({
+  title,
+  headerMenu = {},
+  footerMenus = {},
+  children,
+}) {
   return (
     <div className="page-layout">
       <header className="page-layout__header">
         <h1 className="page-layout__title">{title}</h1>
-        <MainMenu items={menuItems} />
+        <HeaderMenu menuData={headerMenu} />
       </header>
       <main className="page-layout__main">{children}</main>
-      <Footer className="page-layout__footer" siteName="Headless WordPress" />
+      <Footer siteName="Headless WordPress" menusData={footerMenus} />
       <style jsx>{`
         .page-layout {
           display: flex;

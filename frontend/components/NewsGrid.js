@@ -21,7 +21,7 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
       <Link href={`/${article1.slug}`} legacyBehavior>
         <div className="news-grid__hero">
           <div className="news-grid__hero-text">
-            
+
             <Title tag="h1" size="h1" className="news-grid__hero-title">
               <a className="news-grid__link" href={`/${article1.slug}`}>{article1.title}</a>
             </Title>
@@ -96,8 +96,8 @@ export default function NewsGrid({ posts, className = '', additionalClasses = []
       {/* Right column (vertical list) */}
       <div className="news-grid__right-col">
         {rightColumnPosts.map((post) => (
-          <Link href={`/${post.slug}`} legacyBehavior>
-            <article key={post.id} className="news-grid__card--inline">
+          <Link key={post.id} href={`/${post.slug}`} legacyBehavior>
+            <article className="news-grid__card--inline">
               <Title tag="h4" size="h5" className="news-grid__inline-title">
                 <a className="news-grid__link" href={`/${post.slug}`}>{post.title}</a>
               </Title>

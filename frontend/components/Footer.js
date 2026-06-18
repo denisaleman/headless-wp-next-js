@@ -1,21 +1,42 @@
-export default function Footer({ children, className = '', additionalClasses = [], siteName = '' }) {
+import FooterMenu from './FooterMenu';
+
+export default function Footer({
+  className = '',
+  additionalClasses = [],
+  siteName = 'Headless WordPress',
+  menusData = {},
+}) {
   const mandatoryClasses = ['footer'];
-  const combinedClasses = [...mandatoryClasses, className, ...additionalClasses].filter(Boolean).join(' ');
+  const combinedClasses = [...mandatoryClasses, className, ...additionalClasses]
+    .filter(Boolean)
+    .join(' ');
   const year = new Date().getFullYear();
+
+  const menuLocations = Object.keys(menusData);
 
   return (
     <footer className={combinedClasses}>
       <div className="footer__inner">
-        <p className="footer__copyright">
-          &copy; {year} {siteName}. All rights reserved.
-        </p>
-        <div className="footer__social">
-          {/* Placeholder social icons – replace with actual links/icons */}
-          <a href="#" className="footer__social-link" aria-label="Twitter">Twitter</a>
-          <a href="#" className="footer__social-link" aria-label="Facebook">Facebook</a>
-          <a href="#" className="footer__social-link" aria-label="LinkedIn">LinkedIn</a>
+        {menuLocations.length > 0 && (
+          <div className="footer__menus">
+            {menuLocations.map((location) => (
+              <FooterMenu key={location} menuData={menusData[location]} />
+            ))}
+          </div>
+        )}
+
+        <div className="footer__bottom">
+          <p className="footer__copyright">
+            &copy; {year} {siteName}. All rights reserved.
+          </p>
+          <div className="footer__social">
+            <a href="#" className="footer__social-link" aria-label="Twitter">Twitter</a>
+            <a href="#" className="footer__social-link" aria-label="Facebook">Facebook</a>
+            <a href="#" className="footer__social-link" aria-label="LinkedIn">LinkedIn</a>
+          </div>
         </div>
       </div>
+
       <style jsx>{`
         .footer {
           margin-top: 3rem;
@@ -25,11 +46,20 @@ export default function Footer({ children, className = '', additionalClasses = [
         .footer__inner {
           max-width: 1232px;
           margin: 0 auto;
+        }
+        .footer__menus {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(160px, max-content));
+          gap: 2rem;
+          margin-bottom: 1.5rem;
+        }
+        .footer__bottom {
           display: flex;
           justify-content: space-between;
           align-items: center;
           flex-wrap: wrap;
           gap: 1rem;
+          margin-top: 1rem;
         }
         .footer__copyright {
           margin: 0;
@@ -49,7 +79,7 @@ export default function Footer({ children, className = '', additionalClasses = [
           color: #0070f3;
         }
         @media (max-width: 600px) {
-          .footer__inner {
+          .footer__bottom {
             flex-direction: column;
             text-align: center;
           }

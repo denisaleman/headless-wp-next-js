@@ -2,26 +2,34 @@ import { useRouter } from 'next/router';
 import PageLayout from '../components/PageLayout';
 import Title from '../components/typography/Title';
 import Lead from '../components/typography/Lead';
-import { useWordPressPost, useWordPressMenu } from '../hooks/useWordPressData';
+import {
+  useWordPressPost,
+  useWordPressMenu,
+  useWordPressFooterMenus,
+} from '../hooks/useWordPressData';
 
 export default function CatchAllPage() {
   const router = useRouter();
   const { slug } = router.query;
 
-  if (!router.isReady) {
+  const postSlug = slug && slug.length > 0 ? slug[0] : null;
+  const { post, loading: postLoading, error: postError } = useWordPressPost(postSlug);
+  const { menuItems: headerMenu, loading: menuLoading } = useWordPressMenu('header');
+  const { menusData: footerMenus, loading: footerLoading } = useWordPressFooterMenus(['footer-categories', 'footer-about', 'footer-legal']);
+
+  if (!router.isReady || postLoading || menuLoading || footerLoading) {
     return <div>Loading...</div>;
   }
 
-  const postSlug = slug && slug.length > 0 ? slug[0] : null;
-  const { post, loading: postLoading, error: postError } = useWordPressPost(postSlug);
-  const { menuItems, loading: menuLoading } = useWordPressMenu('header');
-
-  if (postLoading || menuLoading) return <div>Loading...</div>;
   if (postError) return <div>{postError}</div>;
   if (!post) return null;
 
   return (
-    <PageLayout title="Headless WordPress + Next.js" menuItems={menuItems}>
+    <PageLayout
+      title="Headless WordPress + Next.js"
+      headerMenu={headerMenu}
+      footerMenus={footerMenus}
+    >
       <article className="news-article">
         {post.featured_image?.url && (
           <figure className="news-article__featured-image">

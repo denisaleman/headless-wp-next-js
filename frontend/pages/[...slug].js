@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router';
 import PageLayout from '../components/PageLayout';
 import Title from '../components/typography/Title';
+import Lead from '../components/typography/Lead';
 import { useWordPressPost, useWordPressMenu } from '../hooks/useWordPressData';
 
 export default function CatchAllPage() {
@@ -24,7 +25,7 @@ export default function CatchAllPage() {
           </figure>
         )}
         <Title tag="h1" size="h1" className="news-article__title">{post.title}</Title>
-        <div className="news-article__lead">{post.excerpt}</div>
+        <Lead className="news-article__lead">{post.excerpt}</Lead>
         <div className="news-article__content" dangerouslySetInnerHTML={{ __html: post.content }} />
         <div className="news-article__meta">
           {post.date && <time dateTime={post.date}>{new Date(post.date).toLocaleDateString()}</time>}
@@ -42,10 +43,6 @@ export default function CatchAllPage() {
         .news-article__featured-image img {
           width: 100%;
           height: auto;
-        }
-        .news-article__lead {
-          font-size: 1.70rem;
-          width: 65ch;
         }
         .news-article__content {
           max-width: 80ch;

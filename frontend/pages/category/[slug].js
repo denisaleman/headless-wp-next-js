@@ -7,11 +7,16 @@ export default function CategoryPage() {
   const router = useRouter();
   const { slug } = router.query;
 
-  const { posts, loading: postsLoading, error: postsError } = useWordPressPosts(slug || '');
+  if (!router.isReady) {
+    return <div>Loading category...</div>; // or a skeleton
+  }
+
+  const { posts, loading: postsLoading, error: postsError } = useWordPressPosts(slug);
   const { menuItems, loading: menuLoading } = useWordPressMenu();
 
   if (postsLoading || menuLoading) return <div>Loading category...</div>;
   if (postsError) return <div>{postsError}</div>;
+  if (!posts.length) return <div>No news found.</div>;
 
   return (
     <PageLayout title="Headless WordPress + Next.js" menuItems={menuItems}>

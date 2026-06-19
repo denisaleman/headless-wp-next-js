@@ -1,8 +1,10 @@
 <?php
 namespace Gafotas\HeadlessNewsTheme\PageData;
 
-class PageDataModule {
-	public function register() {
+use Gafotas\HeadlessNewsTheme\Shared\Contracts\ModuleInterface;
+
+class PageDataModule implements ModuleInterface {
+	public function register(): void {
 		( new REST\PageDataController() )->register();
 	}
 }

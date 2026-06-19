@@ -8,9 +8,10 @@ use Gafotas\HeadlessNewsTheme\DemoContent\Seeders\{
 	FooterMenuSeeder,
 	NewsSeeder
 };
+use Gafotas\HeadlessNewsTheme\Shared\Contracts\ModuleInterface;
 
-class DemoContentModule {
-	public function register() {
+class DemoContentModule implements ModuleInterface {
+	public function register(): void {
 		if ( defined( 'WP_CLI' ) && WP_CLI ) {
 			WP_CLI::add_command( 'demo-content import', [ $this, 'import_command' ] );
 			WP_CLI::add_command( 'demo-content delete', [ $this, 'delete_command' ] );

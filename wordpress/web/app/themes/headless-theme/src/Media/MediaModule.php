@@ -1,8 +1,10 @@
 <?php
 namespace Gafotas\HeadlessNewsTheme\Media;
 
-class MediaModule {
-	public function register() {
+use Gafotas\HeadlessNewsTheme\Shared\Contracts\ModuleInterface;
+
+class MediaModule implements ModuleInterface {
+	public function register(): void {
 		( new Setup\ThumbnailSizesSetup() )->register();
 	}
 }

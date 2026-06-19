@@ -1,37 +1,27 @@
 import { useRouter } from 'next/router';
 import PageLayout from '../../components/PageLayout';
 import NewsGrid from '../../components/NewsGrid';
-import {
-  useWordPressPosts,
-  useWordPressMenu,
-  useWordPressFooterMenus,
-} from '../../hooks/useWordPressData';
-
-const FOOTER_LOCATIONS = ['footer-categories', 'footer-about', 'footer-legal'];
+import { useWordPressPageData } from '../../hooks/useWordPressData';
 
 export default function CategoryPage() {
   const router = useRouter();
   const { slug } = router.query;
 
-  const { posts, loading: postsLoading, error: postsError } = useWordPressPosts(slug || '');
-  const { menuItems: headerMenu, loading: menuLoading } = useWordPressMenu('header');
-  const { menusData: footerMenus, loading: footerLoading } = useWordPressFooterMenus(FOOTER_LOCATIONS);
+  // Build the endpoint only when slug is available
+  const endpoint = slug ? `category/${slug}` : null;
+  const { data, loading, error } = useWordPressPageData(endpoint);
 
-  if (!router.isReady) {
-    return <div>Loading category...</div>;
-  }
-
-  if (postsLoading || menuLoading || footerLoading) return <div>Loading category...</div>;
-  if (postsError) return <div>{postsError}</div>;
-  if (!posts.length) return <div>No news found.</div>;
+  if (!router.isReady || loading) return <div>Loading category...</div>;
+  if (error) return <div>{error}</div>;
+  if (!data || !data.posts || !data.posts.length) return <div>No news found.</div>;
 
   return (
     <PageLayout
       title="Headless WordPress + Next.js"
-      headerMenu={headerMenu}
-      footerMenus={footerMenus}
+      headerMenu={data.header}
+      footerMenus={data.footer}
     >
-      <NewsGrid posts={posts} />
+      <NewsGrid posts={data.posts} />
     </PageLayout>
   );
 }

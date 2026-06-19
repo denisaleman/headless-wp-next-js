@@ -2,10 +2,16 @@
 namespace Gafotas\HeadlessNewsTheme\News\REST;
 
 use Gafotas\HeadlessNewsTheme\Shared\Config\ThumbnailSizes;
+use Gafotas\HeadlessNewsTheme\News\Models\NewsModel;
 
 class NewsController {
 	protected $namespace = 'headless-news/v1';
 	protected $rest_base = 'news';
+	protected $model;
+
+	public function __construct() {
+		$this->model = new NewsModel();
+	}
 
 	public function register() {
 		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
@@ -134,49 +140,10 @@ class NewsController {
 	 * Prepare a single news item for response.
 	 *
 	 * @param \WP_Post $post
-	 * @return array
+	 * @return array|null
 	 */
 	protected function prepare_item( $post ) {
-		// Basic fields
-		$data = [
-			'id'             => $post->ID,
-			'title'          => html_entity_decode( get_the_title( $post ), ENT_QUOTES, 'UTF-8' ),
-			'excerpt'        => html_entity_decode( get_the_excerpt( $post ), ENT_QUOTES, 'UTF-8' ),
-			'content'        => apply_filters( 'the_content', $post->post_content ),
-			'date'           => get_the_date( 'c', $post ),
-			'slug'           => $post->post_name,
-			'link'           => get_permalink( $post ),
-			'categories'     => $this->get_categories( $post ),
-			'featured_image' => null,
-		];
-
-		// Featured image
-		$thumbnail_id = get_post_thumbnail_id( $post );
-		if ( $thumbnail_id ) {
-			$image = wp_get_attachment_image_src( $thumbnail_id, 'full' );
-			if ( $image ) {
-				$data['featured_image'] = [
-					'url'    => $image[0],
-					'width'  => $image[1],
-					'height' => $image[2],
-				];
-				// Add custom sizes from ThumbnailSizes class
-				$custom_sizes = ThumbnailSizes::get_slugs();
-				foreach ( $custom_sizes as $size ) {
-					$src = wp_get_attachment_image_src( $thumbnail_id, $size );
-					if ( $src ) {
-						$data['featured_image'][ $size ] = $src[0];
-					}
-				}
-			}
-		}
-
-		// Custom meta fields (external id, source, author, etc.)
-		$data['external_id'] = get_post_meta( $post->ID, '_news_external_id', true );
-		$data['source_url']  = get_post_meta( $post->ID, '_news_source_url', true );
-		$data['author'] = get_post_meta( $post->ID, '_news_author', true );
-
-		return $data;
+		return $this->model->prepare( $post );
 	}
 
 	/**

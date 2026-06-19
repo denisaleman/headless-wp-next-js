@@ -7,11 +7,6 @@ use Gafotas\HeadlessNewsTheme\News\Models\NewsModel;
 class NewsController {
 	protected $namespace = 'headless-news/v1';
 	protected $rest_base = 'news';
-	protected $model;
-
-	public function __construct() {
-		$this->model = new NewsModel();
-	}
 
 	public function register() {
 		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
@@ -133,17 +128,7 @@ class NewsController {
 		if ( ! $post || 'post' !== $post->post_type ) {
 			return new \WP_Error( 'rest_not_found', 'News not found', [ 'status' => 404 ] );
 		}
-		return $this->prepare_item( $post, $request );
-	}
-
-	/**
-	 * Prepare a single news item for response.
-	 *
-	 * @param \WP_Post $post
-	 * @return array|null
-	 */
-	protected function prepare_item( $post ) {
-		return $this->model->prepare( $post );
+		return NewsModel::prepare( $post );
 	}
 
 	/**

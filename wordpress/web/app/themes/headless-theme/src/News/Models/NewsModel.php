@@ -10,7 +10,7 @@ class NewsModel {
 	 * @param \WP_Post $post
 	 * @return array|null
 	 */
-	public function prepare( $post ) {
+	public static function prepare( $post ) {
 		if ( ! $post instanceof \WP_Post ) {
 			return null;
 		}
@@ -23,7 +23,7 @@ class NewsModel {
 			'date'           => get_the_date( 'c', $post ),
 			'slug'           => $post->post_name,
 			'link'           => get_permalink( $post ),
-			'categories'     => $this->get_categories( $post ),
+			'categories'     => self::get_categories( $post ),
 			'featured_image' => null,
 			'external_id'    => get_post_meta( $post->ID, '_news_external_id', true ),
 			'source_url'     => get_post_meta( $post->ID, '_news_source_url', true ),
@@ -58,7 +58,7 @@ class NewsModel {
 	 * @param \WP_Post $post
 	 * @return array
 	 */
-	private function get_categories( $post ) {
+	private static function get_categories( $post ) {
 		$terms = get_the_category( $post->ID );
 		if ( empty( $terms ) ) {
 			return [];

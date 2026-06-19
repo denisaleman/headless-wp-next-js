@@ -5,12 +5,6 @@ use Gafotas\HeadlessNewsTheme\Shared\Config\ThumbnailSizes;
 use Gafotas\HeadlessNewsTheme\News\Models\NewsModel;
 
 class PageDataProvider {
-	protected $model;
-
-	public function __construct() {
-		$this->model = new NewsModel();
-	}
-
 	public function register() {
 		add_filter( 'headless_news_page_data_category_news_posts', [ $this, 'get_category_news' ], 10, 3 );
 		add_filter( 'headless_news_page_data_news_post', [ $this, 'get_post' ], 10, 2 );
@@ -43,7 +37,7 @@ class PageDataProvider {
 		$query = new \WP_Query( $args );
 		$posts = $query->get_posts();
 
-		return array_map( [ $this->model, 'prepare' ], $posts );
+		return array_map( [ NewsModel::class, 'prepare' ], $posts );
 	}
 
 	/**
@@ -58,6 +52,6 @@ class PageDataProvider {
 		if ( ! $post || 'post' !== $post->post_type ) {
 			return null;
 		}
-		return $this->model->prepare( $post );
+		return NewsModel::prepare( $post );
 	}
 }

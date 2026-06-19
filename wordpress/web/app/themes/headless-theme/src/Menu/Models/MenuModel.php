@@ -8,7 +8,7 @@ class MenuModel {
 	 * @param string $location
 	 * @return array
 	 */
-	public function get_menu_by_location( $location ) {
+	public static function get_menu_by_location( $location ) {
 		$locations = get_nav_menu_locations();
 		if ( ! isset( $locations[ $location ] ) ) {
 			return [
@@ -62,12 +62,12 @@ class MenuModel {
 	 * @param string $locations_string Comma-separated list of locations.
 	 * @return array
 	 */
-	public function get_menus_by_locations( $locations_string ) {
+	public static function get_menus_by_locations( $locations_string ) {
 		$locations = array_map( 'trim', explode( ',', $locations_string ) );
 		$result = [];
 		foreach ( $locations as $location ) {
 			if ( ! empty( $location ) ) {
-				$result[ $location ] = $this->get_menu_by_location( $location );
+				$result[ $location ] = self::get_menu_by_location( $location );
 			}
 		}
 		return $result;

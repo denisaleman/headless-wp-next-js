@@ -10,15 +10,13 @@ class PageDataProvider {
 	}
 
 	public function get_menu( $menu, $location ) {
-		$model = new MenuModel();
-		return $model->get_menu_by_location( $location );
+		return MenuModel::get_menu_by_location( $location );
 	}
 
 	public function get_menus( $menus, $locations ) {
-		$model = new MenuModel();
 		$menus = [];
 		foreach ( $locations as $location ) {
-			$menus[ $location ] = $model->get_menu_by_location( $location );
+			$menus[ $location ] = MenuModel::get_menu_by_location( $location );
 		}
 		return $menus;
 	}

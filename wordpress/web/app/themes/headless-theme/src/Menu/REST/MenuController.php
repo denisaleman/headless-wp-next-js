@@ -4,12 +4,6 @@ namespace Gafotas\HeadlessNewsTheme\Menu\REST;
 use Gafotas\HeadlessNewsTheme\Menu\Models\MenuModel;
 
 class MenuController {
-	private $menu_model;
-
-	public function __construct() {
-		$this->menu_model = new MenuModel();
-	}
-
 	public function register() {
 		add_action( 'rest_api_init', [ $this, 'register_routes' ] );
 	}
@@ -56,13 +50,13 @@ class MenuController {
 
 	public function get_menu( $request ) {
 		$location = $request['location'];
-		$data = $this->menu_model->get_menu_by_location( $location );
+		$data = MenuModel::get_menu_by_location( $location );
 		return rest_ensure_response( $data );
 	}
 
 	public function get_menus_by_locations( $request ) {
 		$locations = $request['locations'];
-		$data = $this->menu_model->get_menus_by_locations( $locations );
+		$data = MenuModel::get_menus_by_locations( $locations );
 		return rest_ensure_response( $data );
 	}
 }

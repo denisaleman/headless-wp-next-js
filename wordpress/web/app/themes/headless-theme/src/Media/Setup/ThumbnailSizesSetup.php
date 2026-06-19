@@ -1,5 +1,5 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\Media\Hooks;
+namespace Gafotas\HeadlessNewsTheme\Media\Setup;
 
 use Gafotas\HeadlessNewsTheme\Shared\Config\ThumbnailSizes;
 

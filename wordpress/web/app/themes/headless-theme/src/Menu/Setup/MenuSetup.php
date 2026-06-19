@@ -1,5 +1,5 @@
 <?php
-namespace Gafotas\HeadlessNewsTheme\Menu\Hooks;
+namespace Gafotas\HeadlessNewsTheme\Menu\Setup;
 
 class MenuSetup {
 	public function register() {

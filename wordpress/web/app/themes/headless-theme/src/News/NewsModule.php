@@ -5,5 +5,6 @@ class NewsModule {
 	public function register() {
 		( new PostTypes\NewsPostType() )->register();
 		( new REST\NewsController() )->register();
+		( new Filters\PageDataProvider() )->register();
 	}
 }

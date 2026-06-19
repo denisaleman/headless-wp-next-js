@@ -6,5 +6,6 @@ class MenuModule {
 	public function register() {
 		( new REST\MenuController() )->register();
 		( new Hooks\MenuSetup() )->register();
+		( new Filters\PageDataProvider() )->register();
 	}
 }

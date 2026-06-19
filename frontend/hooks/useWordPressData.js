@@ -127,3 +127,39 @@ export function useWordPressFooterMenus(locations = []) {
 
   return { menusData, loading, error };
 }
+
+/**
+ * Fetch all data for a specific page type in one request.
+ *
+ * @param {string} endpoint - e.g., 'home', 'category/business', 'news/hello-world'
+ * @returns {object} { data, loading, error }
+ */
+export function useWordPressPageData( endpoint ) {
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    if (!endpoint) {
+      setLoading(false);
+      return;
+    }
+    const wpUrl = process.env.NEXT_PUBLIC_WP_URL || 'http://localhost';
+    fetch(`${wpUrl}/wp-json/headless-news/v1/page-data/${endpoint}`)
+      .then(res => {
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        return res.json();
+      })
+      .then(json => {
+        setData(json);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.error(err);
+        setError('Failed to load page data');
+        setLoading(false);
+      });
+  }, [endpoint]);
+
+  return { data, loading, error };
+}

@@ -7,6 +7,7 @@ class Bootstrap {
 		News\NewsModule::class,
 		Media\MediaModule::class,
 		DemoContent\DemoContentModule::class,
+		PageData\PageDataModule::class,
 	];
 
 	public function run() {

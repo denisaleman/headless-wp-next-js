@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-if [ -f /var/www/html/web/index.php ]; then
+if [ -f /var/www/html/vendor/autoload.php ]; then
     echo "Bedrock already installed. Ensuring correct permissions..."
 else
     echo "No Bedrock installation found. Installing..."

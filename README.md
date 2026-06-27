@@ -233,54 +233,22 @@ useWordPressMenu(location)
 
 # 🧪 Development Commands
 
-## Docker
-
-Start containers:
+Start development server:
 
 ```bash
-cd infrastructure
-docker compose up -d
+docker exec -it headless-wp-frontend npm run dev
 ```
 
-Rebuild frontend:
+Production build:
 
 ```bash
-docker compose build frontend
+docker exec -it headless-wp-frontend npm run build
 ```
 
 Access WP-CLI:
 
 ```bash
 docker exec -it headless-wp-wp-cli wp --info
-```
-
-Import demo content:
-
-```bash
-docker exec headless-wp-wp-cli wp demo-content import
-```
-
-Delete demo content:
-
-```bash
-docker exec headless-wp-wp-cli wp demo-content delete
-```
-
----
-
-## Frontend
-
-```bash
-cd frontend-src
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-
-# Production build
-npm run build
 ```
 
 ---
@@ -304,7 +272,7 @@ composer fix
 ### Import demo content
 
 ```bash
-wp demo-content import [--dry-run]
+docker exec headless-wp-wp-cli wp demo-content import [--dry-run]
 ```
 
 Imports demo news, categories and menus.
@@ -312,22 +280,10 @@ Imports demo news, categories and menus.
 ### Delete demo content
 
 ```bash
-wp demo-content delete [--dry-run]
+docker exec headless-wp-wp-cli wp demo-content delete [--dry-run]
 ```
 
 Removes imported content.
-
-### Remove posts with undersized images
-
-```bash
-wp filter-images clean --min-width=800 --min-height=600 [--dry-run]
-```
-
-### Remove posts without featured images
-
-```bash
-wp filter-images delete-no-image [--dry-run]
-```
 
 ---
 

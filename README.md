@@ -84,40 +84,67 @@ cd headless-wp-next-js
 ### 2. Start Docker containers
 
 ```bash
-cd infrastructure docker compose up -d
+cd infrastructure
+docker compose up -d
 ```
 
-### 3. Run the installer
+This starts the database, PHP-FPM, Nginx, Next.js frontend, WP-CLI, and the setup helper container.
+
+### 3. Install WordPress
+
+You can install WordPress either via WP-CLI (quick and automated) or manually through the browser (traditional WordPress setup).
+
+#### Option A: Via WP-CLI
+
+Run the following command to install WordPress with default credentials:
 
 ```bash
-./install.sh
+docker exec -it headless-wp-wp-cli wp core install \
+  --url="http://localhost" \
+  --title="Headless WordPress" \
+  --admin_user=admin \
+  --admin_password=admin \
+  --admin_email=admin@example.com \
+  --allow-root
 ```
 
-This script:
+> **Note:** You can change `admin_user`, `admin_password`, and `admin_email` to your own values.
 
-- Installs WordPress via Bedrock
-- Sets up the database
-- Configures permalinks
+#### Option B: Manual browser installation
 
-### 4. Import demo content
+Open your browser and navigate to:
 
+```text
+http://localhost/wp/wp-admin/install.php
+```
+
+Follow the standard WordPress installation process.
+
+### 4. Configure permalink structure
+
+After installation (either method), configure the permalink structure:
+
+```bash
+docker exec headless-wp-wp-cli wp rewrite structure '/%postname%/'
+```
+
+> **Note:** If you used the manual installation method, you can also configure permalinks from the WordPress admin dashboard under **Settings → Permalinks**.
+
+### 5. Import demo content (optional)
+
+To populate the site with sample news, categories, and menus:
 
 ```bash
 docker exec headless-wp-wp-cli wp demo-content import
 ```
 
-### 5. Access the site
+### 6. Access the site
 
 | Service | URL |
 |-----------|------|
 | Frontend | http://localhost:3000 |
 | WordPress Admin | http://localhost/wp/wp-admin |
 | REST API | http://localhost/wp-json |
-
-**Admin credentials**
-
-- Username: `admin`
-- Password: `admin`
 
 ---
 

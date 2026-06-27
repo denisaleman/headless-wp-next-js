@@ -30,9 +30,11 @@ This monorepo provides a complete headless WordPress setup with:
 │   └── composer.json
 ├── infrastructure/           # Docker and orchestration
 │   ├── docker-compose.yml
+│   ├── db/                   # Database configuration
+│   ├── frontend/             # Next.js Dockerfile
 │   ├── nginx/                # Nginx configuration
 │   ├── php-fpm/              # PHP-FPM Dockerfile
-│   └── frontend/             # Next.js Dockerfile
+│   └── wp-cli/               # WP-CLI Dockerfile
 └── frontend/                 # Next.js application
     ├── components/           # Reusable React components
     ├── hooks/                # Custom React hooks

@@ -2,7 +2,7 @@ name: headless-wp
 
 services:
   db:
-    image: mariadb:10.11
+    build: ./db
     container_name: headless-wp-db
     restart: always
     environment:
@@ -12,6 +12,7 @@ services:
       MYSQL_PASSWORD: wordpress
     volumes:
       - db_data:/var/lib/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/custom.cnf:ro
     networks:
       - wp_net
 
@@ -32,7 +33,7 @@ services:
       - wp_net
 
   nginx:
-    image: nginx:alpine
+    build: ./nginx
     container_name: headless-wp-nginx
     restart: always
     ports:
@@ -56,11 +57,10 @@ services:
     networks:
       - wp_net
 
-  # Dedicated WP-CLI service for running admin commands
   wp-cli:
     image: wordpress:cli-php8.2
     container_name: headless-wp-wp-cli
-    restart: "no"  # only run when manually executed
+    restart: "no"
     user: "${UID:-1000}:${GID:-1000}"
     volumes:
       - ../wordpress:/var/www/html

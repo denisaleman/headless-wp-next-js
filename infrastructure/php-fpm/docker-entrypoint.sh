@@ -17,6 +17,20 @@ else
     echo "Bedrock installation complete."
 fi
 
+THEME_DIR="/var/www/html/web/app/themes/headless-news"
+if [ -f "$THEME_DIR/composer.json" ] && [ -d "$THEME_DIR" ]; then
+    cd "$THEME_DIR"
+    if [ -f vendor/autoload.php ]; then
+        echo "Theme dependencies already installed."
+    else
+        composer install --no-interaction
+        echo "Theme dependencies installed."
+    fi
+    cd /var/www/html
+else
+    echo "No theme composer.json found, skipping theme dependencies."
+fi
+
 # Ownership for host editing
 chown -R 1000:1000 /var/www/html
 

@@ -32,8 +32,7 @@ This monorepo provides a complete headless WordPress setup with:
 │   ├── docker-compose.yml
 │   ├── nginx/                # Nginx configuration
 │   ├── php-fpm/              # PHP-FPM Dockerfile
-│   ├── frontend/             # Next.js Dockerfile
-│   └── setup/                # Setup container for WP installation
+│   └── frontend/             # Next.js Dockerfile
 └── frontend/                 # Next.js application
     ├── components/           # Reusable React components
     ├── hooks/                # Custom React hooks
@@ -92,11 +91,7 @@ This starts the database, PHP-FPM, Nginx, Next.js frontend, WP-CLI, and the setu
 
 ### 3. Install WordPress
 
-You can install WordPress either via WP-CLI (quick and automated) or manually through the browser (traditional WordPress setup).
-
-#### Option A: Via WP-CLI
-
-Run the following command to install WordPress with default credentials:
+Install WordPress through the browser as usual, or use WP-CLI:
 
 ```bash
 docker exec -it headless-wp-wp-cli wp core install \
@@ -108,17 +103,7 @@ docker exec -it headless-wp-wp-cli wp core install \
   --allow-root
 ```
 
-> **Note:** You can change `admin_user`, `admin_password`, and `admin_email` to your own values.
-
-#### Option B: Manual browser installation
-
-Open your browser and navigate to:
-
-```text
-http://localhost/wp/wp-admin/install.php
-```
-
-Follow the standard WordPress installation process.
+> **Note:** Update the admin credentials as needed.
 
 ### 4. Configure permalink structure
 
@@ -130,7 +115,13 @@ docker exec headless-wp-wp-cli wp rewrite structure '/%postname%/'
 
 > **Note:** If you used the manual installation method, you can also configure permalinks from the WordPress admin dashboard under **Settings → Permalinks**.
 
-### 5. Import demo content (optional)
+### 5. Activate Headless News theme
+
+```bash
+docker exec headless-wp-wp-cli wp theme activate headless-news
+```
+
+### 6. Import demo content
 
 To populate the site with sample news, categories, and menus:
 
@@ -138,7 +129,7 @@ To populate the site with sample news, categories, and menus:
 docker exec headless-wp-wp-cli wp demo-content import
 ```
 
-### 6. Access the site
+### 7. Access the site
 
 | Service | URL |
 |-----------|------|
@@ -350,27 +341,6 @@ wp filter-images delete-no-image [--dry-run]
 
 ---
 
-# 🐛 Troubleshooting
-
-## Permission denied on volumes
-
-```bash
-sudo chown -R $(id -u):$(id -g) volumes/
-```
-
-## PHPCS executables not found
-
-Install PHPCS globally or use wrapper scripts in:
-
-```text
-.vscode/bin/
-```
-
-## Database connection refused
-
-Ensure the `db` container is running and `DB_HOST` matches the Docker service name.
-
----
 
 # 📄 License
 

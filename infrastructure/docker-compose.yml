@@ -15,14 +15,19 @@ services:
     networks:
       - wp_net
 
-  php-fpm:
-    build: ./php-fpm
-    container_name: headless-wp-php-fpm
+  frontend:
+    build: ./frontend
+    container_name: headless-wp-frontend
     restart: always
+    ports:
+      - "3000:3000"
     volumes:
-      - ../wordpress:/var/www/html
+      - ../frontend:/app
+      - /app/node_modules
+    environment:
+      - NEXT_PUBLIC_WP_URL=http://localhost
     depends_on:
-      - db
+      - nginx
     networks:
       - wp_net
 
@@ -40,19 +45,14 @@ services:
     networks:
       - wp_net
 
-  frontend:
-    build: ./frontend
-    container_name: headless-wp-frontend
+  php-fpm:
+    build: ./php-fpm
+    container_name: headless-wp-php-fpm
     restart: always
-    ports:
-      - "3000:3000"
     volumes:
-      - ../frontend:/app
-      - /app/node_modules
-    environment:
-      - NEXT_PUBLIC_WP_URL=http://localhost
+      - ../wordpress:/var/www/html
     depends_on:
-      - nginx
+      - db
     networks:
       - wp_net
 
